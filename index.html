@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNYF TETCH | AI Research & Android Development</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="DNYF TETCH - AI Research, Termux Projects, Terminal Emulators, Android Development & Server Creation">
+    <meta name="keywords" content="AI Research, Termux, Terminal Emulator, Android Development, Server Creation, Machine Learning, DNYF TETCH">
+    <meta name="author" content="DNYF TETCH">
+    <meta name="theme-color" content="#3DDC84">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Apple PWA Support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="DNYF TETCH">
+    <link rel="apple-touch-icon" href="https://dnyf-tetch.github.io/icons/icon-192.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://dnyf-tetch.github.io/icons/icon-32.png">
+    <link rel="shortcut icon" href="https://dnyf-tetch.github.io/icons/icon-32.png">
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #3DDC84;
+            --primary-dark: #2CA15E;
+            --primary-light: rgba(61, 220, 132, 0.1);
+            --terminal: #1E1E1E;
+            --terminal-text: #00FF41;
+            --terminal-border: #00FF41;
+            --dark: #0F1A20;
+            --darker: #0A1217;
+            --light: #F5F5F7;
+            --gray: #8A8F98;
+            --card-bg: #1A252A;
+            --neon-blue: #00D9FF;
+            --neon-purple: #B967FF;
+            --transition: all 0.3s ease;
+            --code-font: 'Fira Code', monospace;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--light);
+            background-color: var(--darker);
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            line-height: 1.2;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section {
+            padding: 80px 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: var(--dark);
+            padding: 12px 28px;
+            border-radius: 4px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(61, 220, 132, 0.2);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: var(--dark);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: white;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        /* Header */
+        header {
+            background-color: rgba(15, 26, 32, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 20px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(61, 220, 132, 0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo span {
+            color: var(--primary);
+        }
+        
+        .logo-icon {
+            color: var(--primary);
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Hero */
+        .hero {
+            padding-top: 150px;
+            background: linear-gradient(to bottom right, var(--darker), #13242c);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .hero-content h1 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            color: white;
+            line-height: 1.1;
+        }
+        
+        .hero-content h1 span {
+            color: var(--primary);
+        }
+        
+        .hero-content .tagline {
+            font-family: var(--code-font);
+            color: var(--terminal-text);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tagline i {
+            margin-right: 10px;
+            color: var(--neon-blue);
+        }
+        
+        .hero-content p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: var(--gray);
+        }
+        
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        /* Terminal Demo */
+        .terminal-demo {
+            background-color: var(--terminal);
+            border-radius: 10px;
+            border: 1px solid var(--terminal-border);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            font-family: var(--code-font);
+        }
+        
+        .terminal-header {
+            background-color: #2D2D2D;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--terminal-border);
+        }
+        
+        .terminal-body {
+            padding: 25px;
+            min-height: 350px;
+        }
+        
+        /* Services */
+        .services-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 40px 30px;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(61, 220, 132, 0.2);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(61, 220, 132, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 25px;
+            color: var(--primary);
+            font-size: 2rem;
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .service-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        
+        /* Projects */
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        
+        .project-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+        
+        .project-header {
+            padding: 25px 25px 15px;
+        }
+        
+        .project-category {
+            display: inline-block;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .project-header h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .project-body {
+            padding: 20px 25px;
+        }
+        
+        .project-body p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        
+        /* Contact */
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+        
+        .contact-form {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #0A1217;
+            padding: 60px 0 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-terminal logo-icon"></i>
+                DNYF <span>TETCH</span>
+            </a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="tagline">
+                    <i class="fas fa-code"></i> AI Research & Android Development
+                </div>
+                <h1>Building Future with <span>AI & Mobile Tech</span></h1>
+                <p>DNYF TETCH specializes in AI research, Android development, Termux projects, terminal emulators, and server creation. We create cutting-edge solutions.</p>
+                <div class="hero-btns">
+                    <a href="#projects" class="btn">View Projects</a>
+                    <a href="#contact" class="btn btn-outline">Start Collaboration</a>
+                </div>
+            </div>
+            <div class="terminal-demo">
+                <div class="terminal-header">
+                    <div class="terminal-title">dnyf@tetch:~$ whoami</div>
+                </div>
+                <div class="terminal-body">
+                    <div style="color: var(--terminal-text); margin-bottom: 10px;">AI Researcher</div>
+                    <div style="color: var(--terminal-text); margin-bottom: 10px;">Android Developer</div>
+                    <div style="color: var(--terminal-text); margin-bottom: 10px;">Termux Expert</div>
+                    <div style="color: var(--terminal-text);">Server Architect</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Expertise</h2>
+                <p>Specialized in cutting-edge technologies and research areas</p>
+            </div>
+            
+            <div class="services-container">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI Research</h3>
+                    <p>Developing advanced AI models, neural networks, and machine learning algorithms for practical applications.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <h3>Android Development</h3>
+                    <p>Creating high-performance Android applications with modern architecture and best practices.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                    <h3>Termux & Terminal</h3>
+                    <p>Building powerful terminal-based applications and tools for Android using Termux environment.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3>Server Development</h3>
+                    <p>Designing and deploying robust server architectures for AI applications and data processing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="section" id="projects" style="background-color: var(--dark);">
+        <div class="container">
+            <div class="section-title">
+                <h2>Featured Projects</h2>
+                <p>Explore our cutting-edge work in AI, Android, and terminal tech</p>
+            </div>
+            
+            <div class="projects-container">
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-category">AI Research</span>
+                        <h3>Termux AI Assistant</h3>
+                    </div>
+                    <div class="project-body">
+                        <p>AI-powered command-line assistant for Termux with natural language processing.</p>
+                        <div style="display: flex; gap: 10px; margin-top: 20px;">
+                            <a href="#" class="btn" style="padding: 8px 16px; font-size: 0.9rem;">View Code</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-category">Android</span>
+                        <h3>Neural Terminal App</h3>
+                    </div>
+                    <div class="project-body">
+                        <p>Intelligent terminal emulator with AI-powered command prediction for Android.</p>
+                        <div style="display: flex; gap: 10px; margin-top: 20px;">
+                            <a href="#" class="btn" style="padding: 8px 16px; font-size: 0.9rem;">View Demo</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-category">Server</span>
+                        <h3>AI Model Server</h3>
+                    </div>
+                    <div class="project-body">
+                        <p>High-performance server for serving multiple AI models with REST API.</p>
+                        <div style="display: flex; gap: 10px; margin-top: 20px;">
+                            <a href="#" class="btn" style="padding: 8px 16px; font-size: 0.9rem;">View Project</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Collaborate With Us</h2>
+                <p>Let's build something amazing together. Get in touch for AI research or development projects.</p>
+            </div>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Let's Push Boundaries</h3>
+                    <p>We're passionate about solving complex problems with AI and mobile technology. Whether you need a custom AI model, Android app, or server infrastructure, we can help.</p>
+                    
+                    <div style="margin-top: 30px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                            <div style="width: 50px; height: 50px; background-color: rgba(61, 220, 132, 0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-right: 15px; color: var(--primary);">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4>Email</h4>
+                                <p>contact@dnyftetch.com</p>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                            <div style="width: 50px; height: 50px; background-color: rgba(61, 220, 132, 0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-right: 15px; color: var(--primary);">
+                                <i class="fab fa-github"></i>
+                            </div>
+                            <div>
+                                <h4>GitHub</h4>
+                                <p>github.com/dnyftetch</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" class="form-control" placeholder="Your Name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="email" id="email" class="form-control" placeholder="Your Email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <select id="projectType" class="form-control" required>
+                                <option value="" disabled selected>Select Project Type</option>
+                                <option value="ai-research">AI Research</option>
+                                <option value="android">Android Development</option>
+                                <option value="termux">Termux Tool</option>
+                                <option value="server">Server Setup</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <textarea id="message" class="form-control" placeholder="Describe your project..." rows="5" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn" style="width: 100%;">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div style="flex: 1;">
+                    <div class="logo" style="font-size: 1.8rem; margin-bottom: 20px;">
+                        DNYF <span>TETCH</span>
+                    </div>
+                    <p style="color: var(--gray); margin-bottom: 20px;">Advancing AI research and mobile technology. Building the future, one line of code at a time.</p>
+                    <div style="display: flex; gap: 15px;">
+                        <a href="#" style="width: 40px; height: 40px; background-color: var(--card-bg); border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" style="width: 40px; height: 40px; background-color: var(--card-bg); border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" style="width: 40px; height: 40px; background-color: var(--card-bg); border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div style="flex: 1;">
+                    <h4 style="color: white; margin-bottom: 20px; font-size: 1.3rem;">Quick Links</h4>
+                    <ul style="list-style: none;">
+                        <li style="margin-bottom: 10px;"><a href="#home" style="color: var(--gray);">Home</a></li>
+                        <li style="margin-bottom: 10px;"><a href="#services" style="color: var(--gray);">Services</a></li>
+                        <li style="margin-bottom: 10px;"><a href="#projects" style="color: var(--gray);">Projects</a></li>
+                        <li style="margin-bottom: 10px;"><a href="#contact" style="color: var(--gray);">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 DNYF TETCH AI Research & Development. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+        
+        // Form submission
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your message! We will contact you soon.');
+            contactForm.reset();
+        });
+        
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
