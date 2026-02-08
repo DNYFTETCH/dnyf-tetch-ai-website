@@ -212,445 +212,536 @@
             grid-template-columns: 1fr 1fr;
             gap: 60px;
             align-items: center;
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNYF TETCH | AI Research & Development</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="DNYF TETCH - AI Research, Termux Projects, Terminal Emulators, Android Development, AI Modules & Server Creation">
+    <meta name="keywords" content="AI Research, Termux, Terminal Emulator, Android Development, Server Creation, Machine Learning, DNYF TETCH, GitHub Projects">
+    <meta name="author" content="DNYF TETCH">
+    <meta name="robots" content="index, follow">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#3DDC84">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="DNYF TETCH">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="DNYF TETCH | AI Research & Development">
+    <meta property="og:description" content="AI Research, Termux Projects, Terminal Emulators, Android Development">
+    <meta property="og:image" content="/icons/icon-512.png">
+    <meta property="og:url" content="https://dnyf-tetch-ai-website.netlify.app">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DNYF TETCH | AI Research">
+    <meta name="twitter:description" content="Building the future with AI & Terminal Tech">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" href="/icons/icon-32.png" type="image/png">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered:', registration);
+                    })
+                    .catch(error => {
+                        console.log('SW registration failed:', error);
+                    });
+            });
         }
         
-        .hero-content h1 {
-            font-size: 3.2rem;
-            margin-bottom: 20px;
-            color: white;
-            line-height: 1.1;
+        // Theme preference
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        if (prefersDarkScheme.matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
         }
-        
-        .hero-content h1 span {
-            color: var(--primary);
-        }
-        
-        .hero-content .tagline {
-            font-family: var(--code-font);
-            color: var(--terminal-text);
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .tagline i {
-            margin-right: 10px;
-            color: var(--neon-blue);
-        }
-        
-        .hero-content p {
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            color: var(--gray);
-        }
-        
-        .hero-btns {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-        
-        /* Terminal Demo */
-        .terminal-demo {
-            background-color: var(--terminal);
-            border-radius: 10px;
-            border: 1px solid var(--terminal-border);
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            font-family: var(--code-font);
-        }
-        
-        .terminal-header {
-            background-color: #2D2D2D;
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid var(--terminal-border);
-        }
-        
-        .terminal-body {
-            padding: 25px;
-            min-height: 350px;
-        }
-        
-        /* Services */
-        .services-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-        
-        .service-card {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 40px 30px;
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            text-align: center;
-        }
-        
-        .service-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(61, 220, 132, 0.2);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        }
-        
-        .service-icon {
-            width: 80px;
-            height: 80px;
-            background-color: rgba(61, 220, 132, 0.1);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto 25px;
-            color: var(--primary);
-            font-size: 2rem;
-        }
-        
-        .service-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: white;
-        }
-        
-        .service-card p {
-            color: var(--gray);
-            font-size: 0.95rem;
-        }
-        
-        /* Projects */
-        .projects-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
-        }
-        
-        .project-card {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            overflow: hidden;
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .project-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-        }
-        
-        .project-header {
-            padding: 25px 25px 15px;
-        }
-        
-        .project-category {
-            display: inline-block;
-            background-color: var(--primary-light);
-            color: var(--primary);
-            padding: 5px 12px;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-        
-        .project-header h3 {
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-            color: white;
-        }
-        
-        .project-body {
-            padding: 20px 25px;
-        }
-        
-        .project-body p {
-            color: var(--gray);
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-        }
-        
-        /* Contact */
-        .contact-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 50px;
-        }
-        
-        .contact-form {
-            background-color: var(--card-bg);
-            padding: 40px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 14px;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            color: white;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        /* Footer */
-        footer {
-            background-color: #0A1217;
-            padding: 60px 0 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .footer-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero-container {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .hero-content h1 {
-                font-size: 2.4rem;
-            }
-        }
-    </style>
+    </script>
 </head>
 <body>
+    <!-- Offline Indicator -->
+    <div class="offline-indicator" id="offlineIndicator">
+        <i class="fas fa-wifi-slash"></i> You're offline - showing cached content
+    </div>
+    
+    <!-- PWA Install Prompt -->
+    <div class="pwa-prompt" id="pwaPrompt">
+        <div class="pwa-prompt-content">
+            <i class="fab fa-android"></i>
+            <div>
+                <h4>Install DNYF TETCH</h4>
+                <p>Install for better experience and offline access</p>
+                <div class="pwa-buttons">
+                    <button id="installPWA" class="btn-primary">Install</button>
+                    <button id="dismissPWA" class="btn-secondary">Not Now</button>
+                </div>
+            </div>
+            <button class="pwa-close" id="closePWA">&times;</button>
+        </div>
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="terminal-loader">
+            <div class="terminal-header">
+                <div class="terminal-title">Loading DNYF TETCH...</div>
+            </div>
+            <div class="terminal-body">
+                <div class="loading-text">$ fetching GitHub data</div>
+                <div class="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Header -->
-    <header>
-        <div class="container header-container">
-            <a href="#" class="logo">
-                <i class="fas fa-terminal logo-icon"></i>
-                DNYF <span>TETCH</span>
-            </a>
-            
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
-            <button class="install-btn" id="installBtn" style="display: none;">
-    <i class="fas fa-download"></i> Install App
-			</button>
-            
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="nav-brand">
+                    <a href="/" class="logo">
+                        <i class="fas fa-terminal"></i>
+                        <span class="logo-text">DNYF <span class="logo-highlight">TETCH</span></span>
+                    </a>
+                </div>
+                
+                <div class="nav-menu" id="navMenu">
+                    <ul class="nav-list">
+                        <li><a href="#home" class="nav-link active"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#projects" class="nav-link"><i class="fas fa-code-branch"></i> Projects</a></li>
+                        <li><a href="#research" class="nav-link"><i class="fas fa-brain"></i> Research</a></li>
+                        <li><a href="#skills" class="nav-link"><i class="fas fa-tools"></i> Skills</a></li>
+                        <li><a href="#about" class="nav-link"><i class="fas fa-user"></i> About</a></li>
+                        <li><a href="#contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
+                    </ul>
+                    
+                    <div class="nav-actions">
+                        <button class="btn-install" id="headerInstallBtn">
+                            <i class="fas fa-download"></i> Install App
+                        </button>
+                        <button class="theme-toggle" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <button class="github-stats-btn" onclick="window.open('https://github.com/dnyftetch', '_blank')">
+                            <i class="fab fa-github"></i>
+                            <span class="stats-counter" id="repoCount">0</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <button class="nav-toggle" id="navToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
         </div>
     </header>
-
+    
     <!-- Hero Section -->
     <section class="hero" id="home">
-        <div class="container hero-container">
+        <div class="container">
             <div class="hero-content">
-                <div class="tagline">
-                    <i class="fas fa-code"></i> AI Research & Android Development
+                <div class="hero-badge">
+                    <span class="badge"><i class="fas fa-terminal"></i> AI Research & Development</span>
                 </div>
-                <h1>Building Future with <span>AI & Mobile Tech</span></h1>
-                <p>DNYF TETCH specializes in AI research, Android development, Termux projects, terminal emulators, and server creation. We create cutting-edge solutions.</p>
-                <div class="hero-btns">
-                    <a href="#projects" class="btn">View Projects</a>
-                    <a href="#contact" class="btn btn-outline">Start Collaboration</a>
+                <h1 class="hero-title">
+                    Building the Future with 
+                    <span class="text-gradient">AI & Terminal Tech</span>
+                </h1>
+                <p class="hero-subtitle">
+                    DNYF TETCH specializes in AI research, Termux projects, terminal emulators, 
+                    Android development, and server creation. Pushing boundaries with code.
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalRepos">0</div>
+                        <div class="stat-label">GitHub Repos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalStars">0</div>
+                        <div class="stat-label">GitHub Stars</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalForks">0</div>
+                        <div class="stat-label">Project Forks</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalCommits">0</div>
+                        <div class="stat-label">Total Commits</div>
+                    </div>
                 </div>
-            </div>
-            <div class="terminal-demo">
-                <div class="terminal-header">
-                    <div class="terminal-title">dnyf@tetch:~$ whoami</div>
+                
+                <div class="hero-actions">
+                    <a href="#projects" class="btn-primary">
+                        <i class="fas fa-rocket"></i> Explore Projects
+                    </a>
+                    <a href="#contact" class="btn-secondary">
+                        <i class="fas fa-handshake"></i> Collaborate
+                    </a>
+                    <button class="btn-tertiary" id="viewGitHub">
+                        <i class="fab fa-github"></i> View GitHub
+                    </button>
                 </div>
-                <div class="terminal-body">
-                    <div style="color: var(--terminal-text); margin-bottom: 10px;">AI Researcher</div>
-                    <div style="color: var(--terminal-text); margin-bottom: 10px;">Android Developer</div>
-                    <div style="color: var(--terminal-text); margin-bottom: 10px;">Termux Expert</div>
-                    <div style="color: var(--terminal-text);">Server Architect</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section class="section" id="services">
-        <div class="container">
-            <div class="section-title">
-                <h2>Our Expertise</h2>
-                <p>Specialized in cutting-edge technologies and research areas</p>
             </div>
             
-            <div class="services-container">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-brain"></i>
+            <div class="hero-terminal">
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-controls">
+                            <span class="control close"></span>
+                            <span class="control minimize"></span>
+                            <span class="control maximize"></span>
+                        </div>
+                        <div class="terminal-title">dnyf@tetch:~</div>
                     </div>
-                    <h3>AI Research</h3>
-                    <p>Developing advanced AI models, neural networks, and machine learning algorithms for practical applications.</p>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fab fa-android"></i>
+                    <div class="terminal-body" id="terminalOutput">
+                        <!-- Terminal output will be generated by JS -->
                     </div>
-                    <h3>Android Development</h3>
-                    <p>Creating high-performance Android applications with modern architecture and best practices.</p>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-terminal"></i>
-                    </div>
-                    <h3>Termux & Terminal</h3>
-                    <p>Building powerful terminal-based applications and tools for Android using Termux environment.</p>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <h3>Server Development</h3>
-                    <p>Designing and deploying robust server architectures for AI applications and data processing.</p>
                 </div>
             </div>
         </div>
     </section>
-
+    
+    <!-- Live GitHub Activity -->
+    <section class="section activity" id="activity">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-fire"></i> Live GitHub Activity
+                </h2>
+                <p class="section-subtitle">Real-time updates from my repositories</p>
+                <div class="section-actions">
+                    <button class="btn-refresh" id="refreshActivity">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <div class="last-updated">
+                        Last updated: <span id="lastUpdated">Just now</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="activity-container">
+                <div class="activity-sidebar">
+                    <div class="activity-filters">
+                        <h3><i class="fas fa-filter"></i> Filter Activities</h3>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="push">Pushes</button>
+                            <button class="filter-btn" data-filter="create">New Repos</button>
+                            <button class="filter-btn" data-filter="issues">Issues</button>
+                            <button class="filter-btn" data-filter="star">Stars</button>
+                        </div>
+                    </div>
+                    
+                    <div class="github-stats-card">
+                        <h3><i class="fas fa-chart-line"></i> GitHub Stats</h3>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-code-branch"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="publicRepos">0</div>
+                                    <div class="stat-label">Public Repos</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="totalStars2">0</div>
+                                    <div class="stat-label">Total Stars</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="totalLanguages">0</div>
+                                    <div class="stat-label">Languages</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-history"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-value" id="accountAge">0</div>
+                                    <div class="stat-label">Days on GitHub</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activity-feed" id="activityFeed">
+                    <!-- GitHub activities will be loaded here -->
+                    <div class="activity-loading">
+                        <div class="spinner"></div>
+                        <p>Loading GitHub activities...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <!-- Projects Section -->
-    <section class="section" id="projects" style="background-color: var(--dark);">
+    <section class="section projects" id="projects">
         <div class="container">
-            <div class="section-title">
-                <h2>Featured Projects</h2>
-                <p>Explore our cutting-edge work in AI, Android, and terminal tech</p>
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-project-diagram"></i> GitHub Projects
+                </h2>
+                <p class="section-subtitle">Automatically synced from your GitHub repositories</p>
+                
+                <div class="projects-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="projectSearch" placeholder="Search projects...">
+                    </div>
+                    <div class="sort-options">
+                        <select id="projectSort">
+                            <option value="updated">Last Updated</option>
+                            <option value="stars">Most Stars</option>
+                            <option value="forks">Most Forks</option>
+                            <option value="name">Name A-Z</option>
+                        </select>
+                    </div>
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button class="view-btn" data-view="list">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
             
-            <div class="projects-container">
-                <div class="project-card">
-                    <div class="project-header">
-                        <span class="project-category">AI Research</span>
-                        <h3>Termux AI Assistant</h3>
-                    </div>
-                    <div class="project-body">
-                        <p>AI-powered command-line assistant for Termux with natural language processing.</p>
-                        <div style="display: flex; gap: 10px; margin-top: 20px;">
-                            <a href="#" class="btn" style="padding: 8px 16px; font-size: 0.9rem;">View Code</a>
-                        </div>
+            <div class="projects-container" id="projectsContainer">
+                <!-- GitHub projects will be loaded here -->
+                <div class="projects-loading">
+                    <div class="spinner"></div>
+                    <p>Loading projects from GitHub...</p>
+                </div>
+            </div>
+            
+            <div class="projects-empty" id="projectsEmpty" style="display: none;">
+                <i class="fas fa-code"></i>
+                <h3>No projects found</h3>
+                <p>No GitHub repositories found or failed to load.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Skills & Technologies -->
+    <section class="section skills" id="skills">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-tools"></i> Skills & Technologies
+                </h2>
+                <p class="section-subtitle">Analyzed from GitHub repositories</p>
+            </div>
+            
+            <div class="skills-container">
+                <div class="skills-chart">
+                    <h3><i class="fas fa-chart-pie"></i> Language Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="languageChart"></canvas>
                     </div>
                 </div>
                 
-                <div class="project-card">
-                    <div class="project-header">
-                        <span class="project-category">Android</span>
-                        <h3>Neural Terminal App</h3>
+                <div class="skills-list">
+                    <h3><i class="fas fa-layer-group"></i> Technology Stack</h3>
+                    <div class="skills-grid" id="skillsGrid">
+                        <!-- Skills will be loaded from GitHub -->
                     </div>
-                    <div class="project-body">
-                        <p>Intelligent terminal emulator with AI-powered command prediction for Android.</p>
-                        <div style="display: flex; gap: 10px; margin-top: 20px;">
-                            <a href="#" class="btn" style="padding: 8px 16px; font-size: 0.9rem;">View Demo</a>
-                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="about-container">
+                <div class="about-content">
+                    <h2 class="section-title">
+                        <i class="fas fa-user"></i> About DNYF TETCH
+                    </h2>
+                    <div class="about-text">
+                        <p>Passionate AI researcher and developer specializing in:</p>
+                        <ul class="about-list">
+                            <li><i class="fas fa-robot"></i> <strong>AI Research</strong> - Machine Learning, Neural Networks, NLP</li>
+                            <li><i class="fab fa-android"></i> <strong>Android Development</strong> - Kotlin, Java, Termux integration</li>
+                            <li><i class="fas fa-terminal"></i> <strong>Termux Projects</strong> - CLI tools, automation scripts</li>
+                            <li><i class="fas fa-server"></i> <strong>Server Development</strong> - Backend APIs, deployment, DevOps</li>
+                            <li><i class="fas fa-cube"></i> <strong>AI Modules</strong> - Custom AI models and tools</li>
+                        </ul>
+                        <p>All projects are open-source and available on GitHub. The website automatically updates with new repositories and activities.</p>
+                    </div>
+                    
+                    <div class="about-links">
+                        <a href="https://github.com/dnyftetch" class="btn-social" target="_blank">
+                            <i class="fab fa-github"></i> GitHub Profile
+                        </a>
+                        <a href="https://github.com/dnyftetch?tab=repositories" class="btn-social" target="_blank">
+                            <i class="fas fa-code"></i> All Repositories
+                        </a>
+                        <a href="https://github.com/dnyftetch?tab=stars" class="btn-social" target="_blank">
+                            <i class="fas fa-star"></i> Starred Projects
+                        </a>
                     </div>
                 </div>
                 
-                <div class="project-card">
-                    <div class="project-header">
-                        <span class="project-category">Server</span>
-                        <h3>AI Model Server</h3>
-                    </div>
-                    <div class="project-body">
-                        <p>High-performance server for serving multiple AI models with REST API.</p>
-                        <div style="display: flex; gap: 10px; margin-top: 20px;">
-                            <a href="#" class="btn" style="padding: 8px 16px; font-size: 0.9rem;">View Project</a>
+                <div class="about-terminal">
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-title">about_dnyf_tetch.sh</div>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-line">
+                                <span class="prompt">$</span>
+                                <span class="command">whoami</span>
+                            </div>
+                            <div class="terminal-line output">dnyf_tetch</div>
+                            
+                            <div class="terminal-line">
+                                <span class="prompt">$</span>
+                                <span class="command">cat skills.txt</span>
+                            </div>
+                            <div class="terminal-line output">
+                                AI Research • Android Dev • Termux •<br>
+                                Terminal Tools • Server Architecture •<br>
+                                Machine Learning • Automation
+                            </div>
+                            
+                            <div class="terminal-line">
+                                <span class="prompt">$</span>
+                                <span class="command">find /projects -type f -name "*.md" | wc -l</span>
+                            </div>
+                            <div class="terminal-line output" id="projectCount">Loading...</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
+    
     <!-- Contact Section -->
-    <section class="section" id="contact">
+    <section class="section contact" id="contact">
         <div class="container">
-            <div class="section-title">
-                <h2>Collaborate With Us</h2>
-                <p>Let's build something amazing together. Get in touch for AI research or development projects.</p>
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-envelope"></i> Get In Touch
+                </h2>
+                <p class="section-subtitle">Let's collaborate on AI research or development projects</p>
             </div>
             
             <div class="contact-container">
                 <div class="contact-info">
-                    <h3>Let's Push Boundaries</h3>
-                    <p>We're passionate about solving complex problems with AI and mobile technology. Whether you need a custom AI model, Android app, or server infrastructure, we can help.</p>
-                    
-                    <div style="margin-top: 30px;">
-                        <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                            <div style="width: 50px; height: 50px; background-color: rgba(61, 220, 132, 0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-right: 15px; color: var(--primary);">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div>
-                                <h4>Email</h4>
-                                <p>contact@dnyftetch.com</p>
-                            </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fab fa-github"></i>
                         </div>
-                        
-                        <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                            <div style="width: 50px; height: 50px; background-color: rgba(61, 220, 132, 0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-right: 15px; color: var(--primary);">
-                                <i class="fab fa-github"></i>
-                            </div>
-                            <div>
-                                <h4>GitHub</h4>
-                                <p>github.com/dnyftetch</p>
-                            </div>
+                        <div class="contact-details">
+                            <h3>GitHub</h3>
+                            <p>dnyftetch</p>
+                            <a href="https://github.com/dnyftetch" target="_blank">View Profile</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <p>contact@dnyftetch.com</p>
+                            <a href="mailto:contact@dnyftetch.com">Send Email</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Latest Project</h3>
+                            <p id="latestProject">Loading...</p>
+                            <a href="#" id="latestProjectLink">View Project</a>
                         </div>
                     </div>
                 </div>
                 
-                <div class="contact-form">
-                    <form id="contactForm">
+                <div class="contact-form-container">
+                    <form id="contactForm" class="contact-form">
                         <div class="form-group">
-                            <input type="text" id="name" class="form-control" placeholder="Your Name" required>
+                            <label for="name">
+                                <i class="fas fa-user"></i> Name
+                            </label>
+                            <input type="text" id="name" required>
                         </div>
                         
                         <div class="form-group">
-                            <input type="email" id="email" class="form-control" placeholder="Your Email" required>
+                            <label for="email">
+                                <i class="fas fa-envelope"></i> Email
+                            </label>
+                            <input type="email" id="email" required>
                         </div>
                         
                         <div class="form-group">
-                            <select id="projectType" class="form-control" required>
-                                <option value="" disabled selected>Select Project Type</option>
-                                <option value="ai-research">AI Research</option>
-                                <option value="android">Android Development</option>
-                                <option value="termux">Termux Tool</option>
-                                <option value="server">Server Setup</option>
+                            <label for="subject">
+                                <i class="fas fa-tag"></i> Subject
+                            </label>
+                            <select id="subject" required>
+                                <option value="">Select topic</option>
+                                <option value="ai-research">AI Research Collaboration</option>
+                                <option value="android-dev">Android Development</option>
+                                <option value="termux-project">Termux Project</option>
+                                <option value="server-setup">Server Setup</option>
+                                <option value="other">Other</option>
                             </select>
                         </div>
                         
                         <div class="form-group">
-                            <textarea id="message" class="form-control" placeholder="Describe your project..." rows="5" required></textarea>
+                            <label for="message">
+                                <i class="fas fa-comment"></i> Message
+                            </label>
+                            <textarea id="message" rows="5" required></textarea>
                         </div>
                         
-                        <button type="submit" class="btn" style="width: 100%;">
+                        <button type="submit" class="btn-primary">
                             <i class="fas fa-paper-plane"></i> Send Message
                         </button>
                     </form>
@@ -658,68 +749,97 @@
             </div>
         </div>
     </section>
-
+    
     <!-- Footer -->
-    <footer>
+    <footer class="footer">
         <div class="container">
-            <div class="footer-container">
-                <div style="flex: 1;">
-                    <div class="logo" style="font-size: 1.8rem; margin-bottom: 20px;">
-                        DNYF <span>TETCH</span>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="fas fa-terminal"></i>
+                        <span class="logo-text">DNYF <span class="logo-highlight">TETCH</span></span>
                     </div>
-                    <p style="color: var(--gray); margin-bottom: 20px;">Advancing AI research and mobile technology. Building the future, one line of code at a time.</p>
-                    <div style="display: flex; gap: 15px;">
-                        <a href="#" style="width: 40px; height: 40px; background-color: var(--card-bg); border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+                    <p class="footer-description">
+                        AI Research • Android Development • Termux Projects • Server Creation
+                    </p>
+                    <div class="footer-social">
+                        <a href="https://github.com/dnyftetch" target="_blank">
                             <i class="fab fa-github"></i>
                         </a>
-                        <a href="#" style="width: 40px; height: 40px; background-color: var(--card-bg); border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+                        <a href="https://twitter.com/dnyftetch" target="_blank">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="#" style="width: 40px; height: 40px; background-color: var(--card-bg); border-radius: 50%; display: flex; justify-content: center; align-items: center;">
-                            <i class="fab fa-linkedin-in"></i>
+                        <a href="https://linkedin.com/in/dnyftetch" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="mailto:contact@dnyftetch.com">
+                            <i class="fas fa-envelope"></i>
                         </a>
                     </div>
                 </div>
                 
-                <div style="flex: 1;">
-                    <h4 style="color: white; margin-bottom: 20px; font-size: 1.3rem;">Quick Links</h4>
-                    <ul style="list-style: none;">
-                        <li style="margin-bottom: 10px;"><a href="#home" style="color: var(--gray);">Home</a></li>
-                        <li style="margin-bottom: 10px;"><a href="#services" style="color: var(--gray);">Services</a></li>
-                        <li style="margin-bottom: 10px;"><a href="#projects" style="color: var(--gray);">Projects</a></li>
-                        <li style="margin-bottom: 10px;"><a href="#contact" style="color: var(--gray);">Contact</a></li>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#skills">Skills</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
                     </ul>
+                </div>
+                
+                <div class="footer-tech">
+                    <h3>Technologies</h3>
+                    <div class="tech-tags" id="footerTechTags">
+                        <!-- Will be populated by JS -->
+                    </div>
+                </div>
+                
+                <div class="footer-stats">
+                    <h3>Live Stats</h3>
+                    <div class="stats">
+                        <div class="stat">
+                            <i class="fas fa-code-branch"></i>
+                            <span>Repos: <span id="footerRepoCount">0</span></span>
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-star"></i>
+                            <span>Stars: <span id="footerStarCount">0</span></span>
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-code"></i>
+                            <span>Updated: <span id="lastUpdateTime">Today</span></span>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <div class="copyright">
-                <p>&copy; 2023 DNYF TETCH AI Research & Development. All rights reserved.</p>
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    &copy; <span id="currentYear">2023</span> DNYF TETCH. All rights reserved.
+                </div>
+                <div class="footer-meta">
+                    <span class="pwa-status" id="pwaStatus">
+                        <i class="fas fa-mobile-alt"></i> PWA Ready
+                    </span>
+                    <span class="update-status" id="updateStatus">
+                        <i class="fas fa-sync-alt"></i> Auto-synced with GitHub
+                    </span>
+                </div>
             </div>
         </div>
     </footer>
-
-    <script>
-    // PWA Service Worker Registration
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/service-worker.js').then(
-                function(registration) {
-                    console.log('ServiceWorker registration successful');
-                },
-                function(err) {
-                    console.log('ServiceWorker registration failed: ', err);
-                }
-            );
-        });
-    }
     
-    // PWA Install Prompt
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        console.log('PWA install available');
-    });
-	</script>
+    <!-- JavaScript Files -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/js/github.js"></script>
+    <script src="/js/pwa.js"></script>
+    <script src="/js/app.js"></script>
+    
+    <script>
+        // Initialize current year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
