@@ -777,69 +777,262 @@
                         </a>
                     </div>
                 </div>
-                
-                <div class="footer-links">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#projects">Projects</a></li>
-                        <li><a href="#skills">Skills</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-tech">
-                    <h3>Technologies</h3>
-                    <div class="tech-tags" id="footerTechTags">
-                        <!-- Will be populated by JS -->
-                    </div>
-                </div>
-                
-                <div class="footer-stats">
-                    <h3>Live Stats</h3>
-                    <div class="stats">
-                        <div class="stat">
-                            <i class="fas fa-code-branch"></i>
-                            <span>Repos: <span id="footerRepoCount">0</span></span>
-                        </div>
-                        <div class="stat">
-                            <i class="fas fa-star"></i>
-                            <span>Stars: <span id="footerStarCount">0</span></span>
-                        </div>
-                        <div class="stat">
-                            <i class="fas fa-code"></i>
-                            <span>Updated: <span id="lastUpdateTime">Today</span></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNYF TETCH | AI Research & Development</title>
+    
+    <!-- Simple CSS -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0f;
+            color: white;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 20px 0;
+            border-bottom: 1px solid #2d2d4d;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: #3ddc84;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 150px 0 100px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #3ddc84, #00d9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: #b8b8d1;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        
+        /* Sections */
+        .section {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: white;
+        }
+        
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .project-card {
+            background: #1a1a2e;
+            border-radius: 10px;
+            padding: 30px;
+            transition: transform 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* Footer */
+        footer {
+            background: #11111f;
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid #2d2d4d;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
             
-            <div class="footer-bottom">
-                <div class="footer-copyright">
-                    &copy; <span id="currentYear">2023</span> DNYF TETCH. All rights reserved.
+            .section {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <a href="/" class="logo">DNYF <span>TETCH</span></a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>AI Research & Development</h1>
+            <p>Building the future with AI, Termux projects, terminal emulators, and server development</p>
+            <div style="margin-top: 40px;">
+                <a href="#projects" style="background: #3ddc84; color: black; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-weight: bold; display: inline-block; margin: 10px;">
+                    View Projects
+                </a>
+                <a href="#contact" style="border: 2px solid #3ddc84; color: #3ddc84; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-weight: bold; display: inline-block; margin: 10px;">
+                    Contact
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>AI Research</h3>
+                    <p>Machine Learning models and AI research projects</p>
                 </div>
-                <div class="footer-meta">
-                    <span class="pwa-status" id="pwaStatus">
-                        <i class="fas fa-mobile-alt"></i> PWA Ready
-                    </span>
-                    <span class="update-status" id="updateStatus">
-                        <i class="fas fa-sync-alt"></i> Auto-synced with GitHub
-                    </span>
+                <div class="project-card">
+                    <h3>Termux Tools</h3>
+                    <p>Command-line utilities for Android Termux</p>
+                </div>
+                <div class="project-card">
+                    <h3>Android Development</h3>
+                    <p>Native Android apps and tools</p>
+                </div>
+                <div class="project-card">
+                    <h3>Server Development</h3>
+                    <p>Backend systems and server infrastructure</p>
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" style="background: #11111f;">
+        <div class="container">
+            <h2 class="section-title">About DNYF TETCH</h2>
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <p style="font-size: 1.2rem; color: #b8b8d1; margin-bottom: 30px;">
+                    Specializing in AI research, Android development, Termux projects, terminal emulators, 
+                    and server creation. All projects are open-source and available on GitHub.
+                </p>
+                <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                    <div style="background: #1a1a2e; padding: 20px; border-radius: 10px; min-width: 200px;">
+                        <div style="font-size: 2rem; color: #3ddc84; margin-bottom: 10px;">10+</div>
+                        <div>GitHub Repos</div>
+                    </div>
+                    <div style="background: #1a1a2e; padding: 20px; border-radius: 10px; min-width: 200px;">
+                        <div style="font-size: 2rem; color: #3ddc84; margin-bottom: 10px;">100+</div>
+                        <div>Total Commits</div>
+                    </div>
+                    <div style="background: #1a1a2e; padding: 20px; border-radius: 10px; min-width: 200px;">
+                        <div style="font-size: 2rem; color: #3ddc84; margin-bottom: 10px;">5+</div>
+                        <div>Technologies</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+                <p style="font-size: 1.2rem; color: #b8b8d1; margin-bottom: 30px;">
+                    Interested in AI research or development collaboration? Let's build something amazing together.
+                </p>
+                <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                    <a href="https://github.com/dnyftetch" target="_blank" style="background: #1a1a2e; color: white; padding: 15px 30px; border-radius: 5px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px;">
+                        <span>GitHub</span>
+                    </a>
+                    <a href="mailto:contact@dnyftetch.com" style="background: #3ddc84; color: black; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 10px;">
+                        <span>Email</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div style="margin-bottom: 30px;">
+                <div class="logo" style="font-size: 2rem; margin-bottom: 20px;">DNYF <span>TETCH</span></div>
+                <p style="color: #b8b8d1;">AI Research • Android Development • Termux Projects</p>
+            </div>
+            <div style="color: #8a8aa3; font-size: 0.9rem;">
+                &copy; 2023 DNYF TETCH. All rights reserved.
+            </div>
+        </div>
     </footer>
-    
-    <!-- JavaScript Files -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/js/github.js"></script>
-    <script src="/js/pwa.js"></script>
-    <script src="/js/app.js"></script>
-    
+
+    <!-- Simple JavaScript -->
     <script>
-        // Initialize current year
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add active class to nav links
+        window.addEventListener('scroll', () => {
+            // Simple scroll effect
+        });
+        
+        console.log('DNYF TETCH website loaded successfully!');
     </script>
 </body>
 </html>
