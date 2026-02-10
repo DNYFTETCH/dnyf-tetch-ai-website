@@ -3,7 +3,7 @@
 Professional website showcasing AI research, Android development, Termux projects, and server development.
 
 ## Live Website
-Visit: https://your-username.github.io/your-repo-name
+Visit: https://dnyftetch.github.io/dnyf-tetch-ai-website/
 
 ## Features
 - Modern responsive design
