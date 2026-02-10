@@ -311,7 +311,7 @@
                                 </div>
                                 <div class="summary-info">
                                     <div class="summary-value" id="reviewsCount">0</div>
-                                    <div class="summary-label">Reviews</div>
+                                    <div class="stat-label">Reviews</div>
                                 </div>
                             </div>
                         </div>
@@ -702,24 +702,44 @@
             console.log('DNYF TETCH website initialized');
         });
 
-<!-- Admin Access Link (Hidden by default) -->
-<a href="admin.html" id="adminLink" style="display: none; position: fixed; bottom: 10px; right: 10px; 
-    background: #667eea; color: white; padding: 5px 10px; border-radius: 5px;
-    text-decoration: none; font-size: 12px; z-index: 9999;">Admin</a>
-
-<script>
-    // Show admin link when pressing Ctrl+Shift+A
-    document.addEventListener('keydown', function(e) {
-        if (e.ctrlKey && e.shiftKey && e.key === 'A') {
-            const adminLink = document.getElementById('adminLink');
-            adminLink.style.display = 'block';
-            
-            // Hide after 10 seconds
-            setTimeout(() => {
-                adminLink.style.display = 'none';
-            }, 10000);
-        }
-    });
-</script>
+        // Admin Access (matches your terminal theme)
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+                // Create admin link if it doesn't exist
+                let adminLink = document.getElementById('adminLink');
+                if (!adminLink) {
+                    adminLink = document.createElement('a');
+                    adminLink.id = 'adminLink';
+                    adminLink.href = 'admin.html';
+                    adminLink.innerHTML = '<i class="fas fa-terminal"></i> Admin';
+                    adminLink.style.cssText = 'position: fixed; bottom: 20px; right: 20px; ' +
+                        'background: linear-gradient(135deg, #3DDC84 0%, #2B8A5E 100%); ' +
+                        'color: white; padding: 10px 15px; border-radius: 8px; ' +
+                        'text-decoration: none; font-size: 14px; font-family: "Fira Code", monospace; ' +
+                        'z-index: 9999; box-shadow: 0 4px 15px rgba(0,0,0,0.2); ' +
+                        'display: flex; align-items: center; gap: 8px;';
+                    document.body.appendChild(adminLink);
+                }
+                
+                adminLink.style.display = 'flex';
+                
+                // Hide after 15 seconds
+                setTimeout(() => {
+                    adminLink.style.display = 'none';
+                }, 15000);
+                
+                // Show terminal-style notification
+                console.log('%c🔐 Admin panel unlocked! Press Ctrl+Shift+A again to show link.', 
+                    'color: #3DDC84; font-weight: bold; font-size: 14px;');
+                    
+                // Play sound if available
+                try {
+                    const audio = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAZGF0YQQ=');
+                    audio.play();
+                } catch (e) {}
+            }
+        });
+    </script>
+    
 </body>
 </html>
