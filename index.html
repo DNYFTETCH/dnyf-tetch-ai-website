@@ -1,56 +1,38 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DNYF TETCH | AI Research & Development</title>
     
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="DNYF TETCH - AI Research, Termux Projects, Terminal Emulators, Android Development, AI Modules & Server Creation">
-    <meta name="keywords" content="AI Research, Termux, Terminal Emulator, Android Development, Server Creation, Machine Learning, DNYF TETCH, GitHub Projects">
+    <!-- SEO & Meta Tags -->
+    <meta name="description" content="DNYF TETCH - AI Research, Termux Projects, Terminal Emulators, Android Development">
+    <meta name="keywords" content="AI Research, Termux, Android Development, DNYF TETCH">
     <meta name="author" content="DNYF TETCH">
-    
-    <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#3DDC84">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
-    <!-- PWA Manifest -->
+    <!-- PWA -->
     <link rel="manifest" href="/manifest.json">
-    
-    <!-- Icons -->
-    <link rel="icon" type="image/png" href="/icons/icon-32.png">
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <link rel="icon" href="/icons/icon-192x192.png" type="image/png">
     
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
     <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     
-    <!-- Service Worker Registration -->
     <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                        console.log('ServiceWorker registration successful');
-                    })
-                    .catch(function(err) {
-                        console.log('ServiceWorker registration failed: ', err);
-                    });
-            });
-        }
-        
-        // Theme initialization
+        // Initialize theme
         const savedTheme = localStorage.getItem('theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js');
+            });
+        }
     </script>
 </head>
 <body>
@@ -67,8 +49,8 @@
                 <h4>Install DNYF TETCH</h4>
                 <p>Install for better experience</p>
                 <div class="pwa-buttons">
-                    <button id="installPWA" class="btn-primary">Install</button>
-                    <button id="dismissPWA" class="btn-secondary">Later</button>
+                    <button id="installPWA" class="btn btn-primary">Install</button>
+                    <button id="dismissPWA" class="btn btn-secondary">Later</button>
                 </div>
             </div>
             <button class="pwa-close" id="closePWA">&times;</button>
@@ -80,24 +62,24 @@
         <div class="loader">
             <div class="terminal-loader">
                 <div class="terminal-header">
-                    <div class="terminal-controls">
-                        <span class="control close"></span>
-                        <span class="control minimize"></span>
-                        <span class="control maximize"></span>
+                    <div class="terminal-dots">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
                     </div>
                     <div class="terminal-title">dnyf@tetch:~</div>
                 </div>
                 <div class="terminal-body">
                     <div class="loading-line">
                         <span class="prompt">$</span>
-                        <span class="command">fetching github data</span>
+                        <span class="command">initializing system</span>
                         <span class="blinking-cursor">█</span>
                     </div>
                     <div class="loading-progress">
                         <div class="progress-bar">
                             <div class="progress-fill"></div>
                         </div>
-                        <div class="progress-text">Loading repositories...</div>
+                        <div class="progress-text">Loading DNYF TETCH...</div>
                     </div>
                 </div>
             </div>
@@ -105,30 +87,27 @@
     </div>
     
     <!-- Header -->
-    <header class="header">
+    <header>
         <div class="container">
-            <nav class="navbar">
-                <div class="navbar-brand">
-                    <a href="/" class="logo">
-                        <i class="fas fa-terminal"></i>
-                        <span class="logo-text">DNYF <span class="logo-highlight">TETCH</span></span>
-                    </a>
-                </div>
+            <nav>
+                <a href="/" class="logo">
+                    <i class="fas fa-terminal"></i> DNYF <span>TETCH</span>
+                </a>
                 
-                <div class="navbar-menu" id="navbarMenu">
-                    <ul class="navbar-nav">
-                        <li><a href="#home" class="nav-link active"><i class="fas fa-home"></i> Home</a></li>
-                        <li><a href="#projects" class="nav-link"><i class="fas fa-code-branch"></i> Projects</a></li>
-                        <li><a href="#skills" class="nav-link"><i class="fas fa-tools"></i> Skills</a></li>
-                        <li><a href="#about" class="nav-link"><i class="fas fa-user"></i> About</a></li>
-                        <li><a href="#contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
-                    </ul>
+                <div class="nav-menu" id="navMenu">
+                    <a href="#home" class="nav-link active">Home</a>
+                    <a href="#projects" class="nav-link">Projects</a>
+                    <a href="#contributions" class="nav-link">Activity</a>
+                    <a href="#ai-chat" class="nav-link">AI Chat</a>
+                    <a href="#skills" class="nav-link">Skills</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#contact" class="nav-link">Contact</a>
                     
-                    <div class="navbar-actions">
-                        <button class="btn-install" id="headerInstallBtn">
-                            <i class="fas fa-download"></i> Install App
+                    <div class="nav-actions">
+                        <button id="installBtn" class="install-btn">
+                            <i class="fas fa-download"></i> Install
                         </button>
-                        <button class="theme-toggle" id="themeToggle">
+                        <button id="themeToggle" class="theme-btn">
                             <i class="fas fa-moon"></i>
                         </button>
                         <a href="https://github.com/dnyftetch" target="_blank" class="github-btn">
@@ -138,133 +117,317 @@
                     </div>
                 </div>
                 
-                <button class="navbar-toggle" id="navbarToggle">
+                <button class="menu-toggle" id="menuToggle">
                     <i class="fas fa-bars"></i>
                 </button>
             </nav>
         </div>
     </header>
-    
-    <!-- Hero Section -->
-    <section class="hero" id="home">
+
+    <!-- Hero -->
+    <section id="home" class="hero">
         <div class="container">
-            <div class="hero-grid">
-                <div class="hero-content">
-                    <div class="hero-badge">
-                        <span class="badge">
-                            <i class="fas fa-terminal"></i> AI Research & Development
-                        </span>
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-terminal"></i> AI Research & Development
+                </div>
+                <h1>Building Future with <span class="highlight">AI & Terminal Tech</span></h1>
+                <p>DNYF TETCH specializes in AI research, Termux projects, terminal emulators, Android development, and server creation.</p>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number" id="totalRepos">0</div>
+                        <div class="stat-label">Repositories</div>
                     </div>
-                    <h1 class="hero-title">
-                        Building Future with 
-                        <span class="text-gradient">AI & Terminal Tech</span>
-                    </h1>
-                    <p class="hero-description">
-                        DNYF TETCH specializes in AI research, Termux projects, terminal emulators, 
-                        Android development, and server creation. Pushing boundaries with code.
-                    </p>
-                    
-                    <div class="hero-stats">
-                        <div class="stat-card">
-                            <div class="stat-number" id="totalRepos">0</div>
-                            <div class="stat-label">Repositories</div>
+                    <div class="stat">
+                        <div class="stat-number" id="totalStars">0</div>
+                        <div class="stat-label">Stars</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="totalForks">0</div>
+                        <div class="stat-label">Forks</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="totalCommits">0</div>
+                        <div class="stat-label">Commits</div>
+                    </div>
+                </div>
+                
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i> View Projects
+                    </a>
+                    <a href="#ai-chat" class="btn btn-secondary">
+                        <i class="fas fa-robot"></i> AI Assistant
+                    </a>
+                    <a href="https://github.com/dnyftetch" target="_blank" class="btn btn-outline">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-terminal">
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="totalStars">0</div>
-                            <div class="stat-label">Stars</div>
+                        <div class="terminal-title">dnyf@tetch:~/projects</div>
+                    </div>
+                    <div class="terminal-body" id="terminalBody">
+                        <!-- Will be filled by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="section">
+        <div class="container">
+            <h2 class="section-title">
+                <i class="fas fa-code-branch"></i> GitHub Projects
+            </h2>
+            <p class="section-subtitle">Automatically synced from GitHub</p>
+            
+            <div class="projects-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search projects...">
+                </div>
+                <select id="sortSelect">
+                    <option value="updated">Last Updated</option>
+                    <option value="stars">Most Stars</option>
+                    <option value="forks">Most Forks</option>
+                    <option value="name">Name A-Z</option>
+                </select>
+                <button id="refreshBtn" class="btn btn-outline">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Projects will be loaded here -->
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading projects...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GitHub Contributions Graph -->
+    <section id="contributions" class="section dark">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-calendar-alt"></i> GitHub Activity
+                </h2>
+                <p class="section-subtitle">Real-time contribution history</p>
+            </div>
+            
+            <div class="contributions-container">
+                <div class="contributions-graph">
+                    <div class="graph-header">
+                        <h3>Last 365 Days</h3>
+                        <div class="graph-stats">
+                            <span class="stat">
+                                <i class="fas fa-fire"></i>
+                                Current Streak: <span id="currentStreak">0</span> days
+                            </span>
+                            <span class="stat">
+                                <i class="fas fa-trophy"></i>
+                                Longest Streak: <span id="longestStreak">0</span> days
+                            </span>
+                            <span class="stat">
+                                <i class="fas fa-code"></i>
+                                Total Contributions: <span id="totalContributions">0</span>
+                            </span>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="totalForks">0</div>
-                            <div class="stat-label">Forks</div>
+                    </div>
+                    <div class="graph-body" id="contributionsGraph">
+                        <!-- GitHub graph will be rendered here -->
+                    </div>
+                    <div class="graph-legend">
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #ebedf0;"></span>
+                            <span>No contributions</span>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="totalCommits">0</div>
-                            <div class="stat-label">Commits</div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #9be9a8;"></span>
+                            <span>1-9 contributions</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #40c463;"></span>
+                            <span>10-19 contributions</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #30a14e;"></span>
+                            <span>20-29 contributions</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #216e39;"></span>
+                            <span>30+ contributions</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contributions-sidebar">
+                    <div class="activity-summary">
+                        <h3><i class="fas fa-chart-line"></i> Activity Summary</h3>
+                        <div class="summary-stats">
+                            <div class="summary-item">
+                                <div class="summary-icon">
+                                    <i class="fas fa-code-commit"></i>
+                                </div>
+                                <div class="summary-info">
+                                    <div class="summary-value" id="commitsCount">0</div>
+                                    <div class="summary-label">Commits</div>
+                                </div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="summary-icon">
+                                    <i class="fas fa-code-pull-request"></i>
+                                </div>
+                                <div class="summary-info">
+                                    <div class="summary-value" id="prsCount">0</div>
+                                    <div class="summary-label">Pull Requests</div>
+                                </div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="summary-icon">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </div>
+                                <div class="summary-info">
+                                    <div class="summary-value" id="issuesCount">0</div>
+                                    <div class="summary-label">Issues</div>
+                                </div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="summary-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="summary-info">
+                                    <div class="summary-value" id="reviewsCount">0</div>
+                                    <div class="summary-label">Reviews</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="hero-actions">
-                        <a href="#projects" class="btn btn-primary">
-                            <i class="fas fa-rocket"></i> Explore Projects
-                        </a>
-                        <a href="#contact" class="btn btn-secondary">
-                            <i class="fas fa-handshake"></i> Collaborate
-                        </a>
-                        <button class="btn btn-outline" id="viewGitHub">
-                            <i class="fab fa-github"></i> GitHub Profile
+                    <div class="recent-activity">
+                        <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                        <div class="activity-list" id="recentActivityList">
+                            <!-- Recent activities will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Terminal Chat -->
+    <section id="ai-chat" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-robot"></i> AI Terminal Assistant
+                </h2>
+                <p class="section-subtitle">Chat with AI about your projects (Demo)</p>
+            </div>
+            
+            <div class="ai-terminal">
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <div class="terminal-title">dnyf@tetch-ai:~</div>
+                    </div>
+                    <div class="terminal-body" id="aiTerminalBody">
+                        <div class="terminal-line">
+                            <span class="prompt">AI:</span>
+                            <span class="command">Hello! I'm your AI assistant. Ask me about DNYF TETCH projects, AI research, or development.</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="prompt">Type 'help' for commands</span>
+                        </div>
+                    </div>
+                    <div class="terminal-input">
+                        <span class="prompt">$</span>
+                        <input type="text" id="aiInput" placeholder="Type your command..." autocomplete="off">
+                        <button id="sendCommand">
+                            <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
                 </div>
                 
-                <div class="hero-terminal">
-                    <div class="terminal">
-                        <div class="terminal-header">
-                            <div class="terminal-controls">
-                                <span class="control close"></span>
-                                <span class="control minimize"></span>
-                                <span class="control maximize"></span>
+                <div class="ai-info">
+                    <h3><i class="fas fa-info-circle"></i> Available Commands</h3>
+                    <div class="commands-list">
+                        <div class="command-item">
+                            <code>projects</code>
+                            <span>List all GitHub projects</span>
+                        </div>
+                        <div class="command-item">
+                            <code>skills</code>
+                            <span>Show technology skills</span>
+                        </div>
+                        <div class="command-item">
+                            <code>about</code>
+                            <span>About DNYF TETCH</span>
+                        </div>
+                        <div class="command-item">
+                            <code>contact</code>
+                            <span>Contact information</span>
+                        </div>
+                        <div class="command-item">
+                            <code>github</code>
+                            <span>Open GitHub profile</span>
+                        </div>
+                        <div class="command-item">
+                            <code>clear</code>
+                            <span>Clear terminal</span>
+                        </div>
+                        <div class="command-item">
+                            <code>help</code>
+                            <span>Show all commands</span>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-stats">
+                        <h4><i class="fas fa-chart-bar"></i> AI Stats</h4>
+                        <div class="stats-grid">
+                            <div class="stat">
+                                <div class="stat-value" id="aiResponses">0</div>
+                                <div class="stat-label">Responses</div>
                             </div>
-                            <div class="terminal-title">dnyf@tetch:~/projects</div>
-                        </div>
-                        <div class="terminal-body" id="terminalOutput">
-                            <!-- Terminal output will be generated by JS -->
+                            <div class="stat">
+                                <div class="stat-value" id="aiCommands">0</div>
+                                <div class="stat-label">Commands</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">24/7</div>
+                                <div class="stat-label">Availability</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- Projects Section -->
-    <section class="section projects" id="projects">
+
+    <!-- Skills -->
+    <section id="skills" class="section dark">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-project-diagram"></i> GitHub Projects
-                </h2>
-                <p class="section-subtitle">Automatically synced from your GitHub repositories</p>
-                
-                <div class="projects-controls">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="projectSearch" placeholder="Search projects...">
-                    </div>
-                    <div class="sort-box">
-                        <select id="projectSort">
-                            <option value="updated">Last Updated</option>
-                            <option value="stars">Most Stars</option>
-                            <option value="forks">Most Forks</option>
-                            <option value="name">Name A-Z</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="projects-container" id="projectsContainer">
-                <!-- Projects will be loaded here -->
-                <div class="loading-state">
-                    <div class="spinner"></div>
-                    <p>Loading projects from GitHub...</p>
-                </div>
-            </div>
-            
-            <div class="projects-empty" id="projectsEmpty" style="display: none;">
-                <i class="fas fa-code"></i>
-                <h3>No projects found</h3>
-                <p>No GitHub repositories found or failed to load.</p>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Skills Section -->
-    <section class="section skills" id="skills">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-tools"></i> Skills & Technologies
-                </h2>
-                <p class="section-subtitle">Analyzed from GitHub repositories</p>
-            </div>
+            <h2 class="section-title">
+                <i class="fas fa-tools"></i> Skills & Technologies
+            </h2>
+            <p class="section-subtitle">Analyzed from GitHub repositories</p>
             
             <div class="skills-container">
                 <div class="skills-chart">
@@ -283,147 +446,119 @@
             </div>
         </div>
     </section>
-    
-    <!-- About Section -->
-    <section class="section about" id="about">
+
+    <!-- About -->
+    <section id="about" class="section">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-user"></i> About DNYF TETCH
-                </h2>
-                <p class="section-subtitle">Specialized in cutting-edge technologies</p>
-            </div>
+            <h2 class="section-title">
+                <i class="fas fa-user"></i> About DNYF TETCH
+            </h2>
             
             <div class="about-content">
                 <div class="about-text">
                     <h3>Research & Development Focus</h3>
-                    <p>Passionate about solving complex problems with AI and mobile technology. Specializing in:</p>
+                    <p>Specializing in cutting-edge technologies:</p>
                     
-                    <div class="expertise-list">
-                        <div class="expertise-item">
+                    <div class="expertise-grid">
+                        <div class="expertise-card">
                             <div class="expertise-icon">
                                 <i class="fas fa-brain"></i>
                             </div>
-                            <div class="expertise-content">
-                                <h4>AI Research</h4>
-                                <p>Machine Learning, Neural Networks, NLP models and algorithms</p>
-                            </div>
+                            <h4>AI Research</h4>
+                            <p>Machine Learning, Neural Networks, NLP</p>
                         </div>
                         
-                        <div class="expertise-item">
+                        <div class="expertise-card">
                             <div class="expertise-icon">
                                 <i class="fab fa-android"></i>
                             </div>
-                            <div class="expertise-content">
-                                <h4>Android Development</h4>
-                                <p>Native Android apps, Kotlin/Java development, Termux integration</p>
-                            </div>
+                            <h4>Android Development</h4>
+                            <p>Kotlin, Java, Termux integration</p>
                         </div>
                         
-                        <div class="expertise-item">
+                        <div class="expertise-card">
                             <div class="expertise-icon">
                                 <i class="fas fa-terminal"></i>
                             </div>
-                            <div class="expertise-content">
-                                <h4>Termux & Terminal</h4>
-                                <p>CLI tools, automation scripts, terminal emulators</p>
-                            </div>
+                            <h4>Termux & Terminal</h4>
+                            <p>CLI tools, automation scripts</p>
                         </div>
                         
-                        <div class="expertise-item">
+                        <div class="expertise-card">
                             <div class="expertise-icon">
                                 <i class="fas fa-server"></i>
                             </div>
-                            <div class="expertise-content">
-                                <h4>Server Development</h4>
-                                <p>Backend APIs, deployment, DevOps, infrastructure</p>
-                            </div>
+                            <h4>Server Development</h4>
+                            <p>Backend APIs, deployment, DevOps</p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="about-terminal">
-                    <div class="terminal">
+                    <div class="terminal small">
                         <div class="terminal-header">
-                            <div class="terminal-title">about_dnyf_tetch.sh</div>
+                            <div class="terminal-title">about_dnyf.sh</div>
                         </div>
                         <div class="terminal-body">
                             <div class="terminal-line">
-                                <span class="prompt">$</span>
-                                <span class="command">whoami</span>
+                                <span class="prompt">$</span> <span class="command">whoami</span>
                             </div>
-                            <div class="terminal-line output">dnyf_tetch</div>
+                            <div class="output">dnyf_tetch</div>
                             
                             <div class="terminal-line">
-                                <span class="prompt">$</span>
-                                <span class="command">cat skills.txt</span>
+                                <span class="prompt">$</span> <span class="command">cat expertise.txt</span>
                             </div>
-                            <div class="terminal-line output">
-                                AI Research • Android Dev • Termux •<br>
-                                Terminal Tools • Server Architecture •<br>
+                            <div class="output">
+                                AI Research • Android Dev<br>
+                                Termux Tools • Server Setup<br>
                                 Machine Learning • Automation
                             </div>
-                            
-                            <div class="terminal-line">
-                                <span class="prompt">$</span>
-                                <span class="command">find /projects -type f | wc -l</span>
-                            </div>
-                            <div class="terminal-line output" id="projectCount">Loading...</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- Contact Section -->
-    <section class="section contact" id="contact">
+
+    <!-- Contact -->
+    <section id="contact" class="section dark">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-envelope"></i> Get In Touch
-                </h2>
-                <p class="section-subtitle">Let's collaborate on AI research or development projects</p>
-            </div>
+            <h2 class="section-title">
+                <i class="fas fa-envelope"></i> Get In Touch
+            </h2>
             
             <div class="contact-container">
                 <div class="contact-info">
-                    <div class="info-card">
-                        <div class="info-icon">
+                    <div class="contact-card">
+                        <div class="contact-icon">
                             <i class="fab fa-github"></i>
                         </div>
-                        <div class="info-content">
+                        <div>
                             <h3>GitHub</h3>
                             <p>dnyftetch</p>
-                            <a href="https://github.com/dnyftetch" target="_blank" class="info-link">
-                                View Profile <i class="fas fa-external-link-alt"></i>
-                            </a>
+                            <a href="https://github.com/dnyftetch" target="_blank">View Profile</a>
                         </div>
                     </div>
                     
-                    <div class="info-card">
-                        <div class="info-icon">
+                    <div class="contact-card">
+                        <div class="contact-icon">
                             <i class="fas fa-envelope"></i>
                         </div>
-                        <div class="info-content">
+                        <div>
                             <h3>Email</h3>
                             <p>contact@dnyftetch.com</p>
-                            <a href="mailto:contact@dnyftetch.com" class="info-link">
-                                Send Email <i class="fas fa-paper-plane"></i>
-                            </a>
+                            <a href="mailto:contact@dnyftetch.com">Send Email</a>
                         </div>
                     </div>
                     
-                    <div class="info-card">
-                        <div class="info-icon">
+                    <div class="contact-card">
+                        <div class="contact-icon">
                             <i class="fas fa-code"></i>
                         </div>
-                        <div class="info-content">
+                        <div>
                             <h3>Latest Project</h3>
                             <p id="latestProject">Loading...</p>
-                            <a href="#" id="latestProjectLink" class="info-link">
-                                View Project <i class="fas fa-external-link-alt"></i>
-                            </a>
+                            <a href="#" id="latestProjectLink">View Project</a>
                         </div>
                     </div>
                 </div>
@@ -431,40 +566,25 @@
                 <div class="contact-form">
                     <form id="contactForm">
                         <div class="form-group">
-                            <label for="name">
-                                <i class="fas fa-user"></i> Name
-                            </label>
-                            <input type="text" id="name" required>
+                            <input type="text" placeholder="Your Name" required>
                         </div>
-                        
                         <div class="form-group">
-                            <label for="email">
-                                <i class="fas fa-envelope"></i> Email
-                            </label>
-                            <input type="email" id="email" required>
+                            <input type="email" placeholder="Your Email" required>
                         </div>
-                        
                         <div class="form-group">
-                            <label for="projectType">
-                                <i class="fas fa-tag"></i> Project Type
-                            </label>
-                            <select id="projectType" required>
-                                <option value="">Select topic</option>
-                                <option value="ai-research">AI Research Collaboration</option>
-                                <option value="android-dev">Android Development</option>
-                                <option value="termux-project">Termux Project</option>
-                                <option value="server-setup">Server Setup</option>
+                            <select required>
+                                <option value="">Select Topic</option>
+                                <option value="ai">AI Research</option>
+                                <option value="android">Android Development</option>
+                                <option value="termux">Termux Project</option>
+                                <option value="server">Server Setup</option>
+                                <option value="collab">Collaboration</option>
                                 <option value="other">Other</option>
                             </select>
                         </div>
-                        
                         <div class="form-group">
-                            <label for="message">
-                                <i class="fas fa-comment"></i> Message
-                            </label>
-                            <textarea id="message" rows="5" required></textarea>
+                            <textarea placeholder="Your Message" rows="4" required></textarea>
                         </div>
-                        
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-paper-plane"></i> Send Message
                         </button>
@@ -473,27 +593,22 @@
             </div>
         </div>
     </section>
-    
+
     <!-- Footer -->
-    <footer class="footer">
+    <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <div class="logo">
-                        <i class="fas fa-terminal"></i>
-                        <span class="logo-text">DNYF <span class="logo-highlight">TETCH</span></span>
-                    </div>
-                    <p class="footer-description">
-                        AI Research • Android Development • Termux Projects • Server Creation
-                    </p>
+                    <div class="logo">DNYF <span>TETCH</span></div>
+                    <p>AI Research • Android Development • Termux Projects • Server Creation</p>
                     <div class="footer-social">
-                        <a href="https://github.com/dnyftetch" target="_blank" class="social-link">
+                        <a href="https://github.com/dnyftetch" target="_blank">
                             <i class="fab fa-github"></i>
                         </a>
-                        <a href="https://twitter.com/dnyftetch" target="_blank" class="social-link">
+                        <a href="https://twitter.com/dnyftetch" target="_blank">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="mailto:contact@dnyftetch.com" class="social-link">
+                        <a href="mailto:contact@dnyftetch.com">
                             <i class="fas fa-envelope"></i>
                         </a>
                     </div>
@@ -501,13 +616,13 @@
                 
                 <div class="footer-links">
                     <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#projects">Projects</a></li>
-                        <li><a href="#skills">Skills</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
+                    <a href="#home">Home</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contributions">Activity</a>
+                    <a href="#ai-chat">AI Chat</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
                 </div>
                 
                 <div class="footer-tech">
@@ -522,51 +637,166 @@
                     <div class="stats">
                         <div class="stat-item">
                             <i class="fas fa-code-branch"></i>
-                            <span>Repos: <strong id="footerRepoCount">0</strong></span>
+                            <span>Repos: <strong id="footerRepos">0</strong></span>
                         </div>
                         <div class="stat-item">
                             <i class="fas fa-star"></i>
-                            <span>Stars: <strong id="footerStarCount">0</strong></span>
+                            <span>Stars: <strong id="footerStars">0</strong></span>
                         </div>
                         <div class="stat-item">
                             <i class="fas fa-sync-alt"></i>
-                            <span>Updated: <strong id="lastUpdateTime">Today</strong></span>
+                            <span>Updated: <strong id="lastUpdate">Just now</strong></span>
                         </div>
                     </div>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <div class="copyright">
-                    &copy; <span id="currentYear">2023</span> DNYF TETCH. All rights reserved.
-                </div>
+                <p>&copy; <span id="currentYear">2023</span> DNYF TETCH. All rights reserved.</p>
                 <div class="footer-meta">
-                    <span class="pwa-status" id="pwaStatus">
+                    <span class="pwa-status">
                         <i class="fas fa-mobile-alt"></i> PWA Ready
                     </span>
-                    <span class="update-status" id="updateStatus">
-                        <i class="fas fa-sync-alt"></i> Auto-synced with GitHub
+                    <span class="update-status" id="networkStatus">
+                        <i class="fas fa-wifi"></i> <span id="statusText">Online</span>
                     </span>
                 </div>
             </div>
         </div>
     </footer>
-    
-    <!-- JavaScript Files -->
-    <script src="/js/pwa.js"></script>
-    <script src="/js/github.js"></script>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/github.js"></script>
+    <script src="/js/contributions.js"></script>
+    <script src="/js/ai-chat.js"></script>
+    <script src="/js/pwa.js"></script>
     
     <script>
-        // Initialize current year
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
-        
-        // Initialize theme toggle icon
-        const themeToggle = document.getElementById('themeToggle');
-        if (themeToggle) {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            themeToggle.innerHTML = `<i class="fas fa-${currentTheme === 'dark' ? 'moon' : 'sun'}"></i>`;
-        }
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update year
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Update last update time
+            function updateLastUpdate() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                document.getElementById('lastUpdate').textContent = timeString;
+            }
+            updateLastUpdate();
+            setInterval(updateLastUpdate, 60000); // Update every minute
+            
+            // Mobile menu
+            const menuToggle = document.getElementById('menuToggle');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (menuToggle && navMenu) {
+                menuToggle.addEventListener('click', () => {
+                    navMenu.classList.toggle('show');
+                    menuToggle.innerHTML = navMenu.classList.contains('show') 
+                        ? '<i class="fas fa-times"></i>' 
+                        : '<i class="fas fa-bars"></i>';
+                });
+                
+                // Close menu when clicking a link
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navMenu.classList.remove('show');
+                        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                    });
+                });
+            }
+            
+            // Theme toggle
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    themeToggle.innerHTML = `<i class="fas fa-${newTheme === 'dark' ? 'moon' : 'sun'}"></i>`;
+                    localStorage.setItem('theme', newTheme);
+                });
+                
+                // Set correct icon
+                const savedTheme = localStorage.getItem('theme') || 'dark';
+                themeToggle.innerHTML = `<i class="fas fa-${savedTheme === 'dark' ? 'moon' : 'sun'}"></i>`;
+            }
+            
+            // Smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+            
+            // Contact form
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Show success message
+                    if (window.app && window.app.showNotification) {
+                        window.app.showNotification('Thank you! Your message has been sent.');
+                    } else {
+                        alert('Thank you! Your message has been sent.');
+                    }
+                    
+                    // Reset form
+                    this.reset();
+                });
+            }
+            
+            // Network status
+            function updateNetworkStatus() {
+                const isOnline = navigator.onLine;
+                const statusText = document.getElementById('statusText');
+                const statusElement = document.getElementById('networkStatus');
+                
+                if (statusText) {
+                    statusText.textContent = isOnline ? 'Online' : 'Offline';
+                }
+                
+                if (statusElement) {
+                    statusElement.style.color = isOnline ? '#3ddc84' : '#ff5f56';
+                }
+                
+                // Show offline indicator
+                const offlineIndicator = document.getElementById('offlineIndicator');
+                if (offlineIndicator) {
+                    if (!isOnline) {
+                        offlineIndicator.classList.add('show');
+                    } else {
+                        offlineIndicator.classList.remove('show');
+                    }
+                }
+            }
+            
+            window.addEventListener('online', updateNetworkStatus);
+            window.addEventListener('offline', updateNetworkStatus);
+            updateNetworkStatus();
+            
+            // Hide loading overlay
+            setTimeout(() => {
+                const loadingOverlay = document.getElementById('loadingOverlay');
+                if (loadingOverlay) {
+                    loadingOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingOverlay.style.display = 'none';
+                    }, 300);
+                }
+            }, 1500);
+            
+            console.log('DNYF TETCH website initialized');
+        });
     </script>
 </body>
-	</html>
+</html>
