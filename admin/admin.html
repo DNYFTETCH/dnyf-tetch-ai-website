@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Admin Panel - DNYF TETCH</title>
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Android Material Colors */
+            --primary-color: #3DDC84;
+            --primary-dark: #2B8A5E;
+            --primary-light: #A3E9C6;
+            --secondary-color: #6200EE;
+            --surface-color: #FFFFFF;
+            --background-color: #F5F5F5;
+            --error-color: #B00020;
+            --on-primary: #000000;
+            --on-surface: #000000;
+            --on-background: #000000;
+            --surface-variant: #F5F5F5;
+            --outline: #E0E0E0;
+            
+            /* Typography */
+            --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+            --mono-font: 'JetBrains Mono', monospace;
+            
+            /* Elevation shadows */
+            --elevation-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            --elevation-2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            --elevation-3: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+            
+            /* Spacing */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            
+            /* Border radius */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 20px;
+            --radius-full: 9999px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: var(--font-family);
+            background: var(--background-color);
+            color: var(--on-background);
+            line-height: 1.5;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        /* Login Screen */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: var(--spacing-xl);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        }
+        
+        .login-card {
+            background: var(--surface-color);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            box-shadow: var(--elevation-3);
+            max-width: 400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .login-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+            color: var(--primary-color);
+        }
+        
+        .login-logo i {
+            font-size: 32px;
+        }
+        
+        .login-logo span {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .login-title {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .login-subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .input-field {
+            position: relative;
+        }
+        
+        .input-field label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .input-field input,
+        .input-field select,
+        .input-field textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--outline);
+            border-radius: var(--radius-md);
+            font-size: 16px;
+            font-family: var(--font-family);
+            transition: all 0.2s;
+            background: var(--surface-color);
+        }
+        
+        .input-field input:focus,
+        .input-field select:focus,
+        .input-field textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(61, 220, 132, 0.1);
+        }
+        
+        .input-field.with-icon {
+            position: relative;
+        }
+        
+        .input-field.with-icon i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+        
+        .input-field.with-icon input {
+            padding-left: 48px;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            padding: 14px 24px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: var(--font-family);
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:active {
+            transform: scale(0.98);
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--on-primary);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        .btn-secondary {
+            background: #666;
+            color: white;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--outline);
+            color: var(--on-surface);
+        }
+        
+        .btn-danger {
+            background: var(--error-color);
+            color: white;
+        }
+        
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+        
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border-radius: var(--radius-full);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Ripple Effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        /* Admin Panel */
+        .admin-container {
+            display: none;
+            min-height: 100vh;
+        }
+        
+        /* Top App Bar */
+        .top-app-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--surface-color);
+            color: var(--on-surface);
+            padding: 12px var(--spacing-md);
+            box-shadow: var(--elevation-1);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+        
+        .top-app-bar .menu-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: var(--radius-full);
+        }
+        
+        .top-app-bar .title {
+            font-size: 20px;
+            font-weight: 500;
+            flex: 1;
+        }
+        
+        .top-app-bar .actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--surface-color);
+            display: flex;
+            padding: 8px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+        
+        .nav-item i {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 80px var(--spacing-md) 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        /* Dashboard */
+        .dashboard {
+            display: grid;
+            gap: var(--spacing-md);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--spacing-md);
+        }
+        
+        .stat-card {
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--elevation-1);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+        
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .stat-info h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .stat-info p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+        }
+        
+        .action-card {
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--elevation-1);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--elevation-2);
+        }
+        
+        .action-card i {
+            font-size: 32px;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .action-card h3 {
+            margin-bottom: var(--spacing-xs);
+            font-weight: 500;
+        }
+        
+        .action-card p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* Content Management */
+        .content-section {
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--elevation-1);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--outline);
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .section-title i {
+            color: var(--primary-color);
+        }
+        
+        /* Tabs */
+        .tab-header {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            overflow-x: auto;
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .tab-header::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .tab-header::-webkit-scrollbar-track {
+            background: var(--surface-variant);
+        }
+        
+        .tab-header::-webkit-scrollbar-thumb {
+            background: var(--primary-light);
+            border-radius: var(--radius-full);
+        }
+        
+        .tab-btn {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-md);
+        }
+        
+        .card {
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--elevation-1);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: var(--spacing-xs);
+        }
+        
+        /* Lists */
+        .list {
+            list-style: none;
+        }
+        
+        .list-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--outline);
+            transition: all 0.2s;
+        }
+        
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        
+        .list-item:hover {
+            background: var(--surface-variant);
+        }
+        
+        .list-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .list-content {
+            flex: 1;
+        }
+        
+        .list-title {
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+        
+        .list-subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .list-actions {
+            display: flex;
+            gap: var(--spacing-xs);
+        }
+        
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--outline);
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+        
+        .data-table th {
+            background: var(--surface-variant);
+            padding: var(--spacing-md);
+            text-align: left;
+            font-weight: 500;
+            font-size: 14px;
+            color: #666;
+            border-bottom: 1px solid var(--outline);
+        }
+        
+        .data-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--outline);
+        }
+        
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .data-table tr:hover {
+            background: var(--surface-variant);
+        }
+        
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+        }
+        
+        /* Chips */
+        .chips-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+        
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: 6px 12px;
+            background: var(--surface-variant);
+            border-radius: var(--radius-full);
+            font-size: 14px;
+        }
+        
+        .chip i {
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        /* Progress */
+        .progress-bar {
+            height: 4px;
+            background: var(--outline);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin-top: var(--spacing-md);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-color);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2000;
+            width: 90%;
+            max-width: 400px;
+        }
+        
+        .toast {
+            background: var(--surface-color);
+            color: var(--on-surface);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            box-shadow: var(--elevation-2);
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .toast i {
+            font-size: 20px;
+        }
+        
+        .toast.success i {
+            color: var(--primary-color);
+        }
+        
+        .toast.error i {
+            color: var(--error-color);
+        }
+        
+        .toast.warning i {
+            color: #FF9800;
+        }
+        
+        .toast.info i {
+            color: var(--secondary-color);
+        }
+        
+        .toast-content {
+            flex: 1;
+        }
+        
+        .toast-title {
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+        
+        .toast-message {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .toast-close {
+            background: none;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+            padding: 4px;
+        }
+        
+        /* Loading */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-xl);
+            gap: var(--spacing-md);
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--outline);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-card {
+                padding: var(--spacing-lg);
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-content {
+                padding: 70px var(--spacing-sm) 70px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tab-header {
+                gap: var(--spacing-xs);
+            }
+            
+            .tab-btn {
+                padding: var(--spacing-sm) var(--spacing-md);
+                font-size: 13px;
+            }
+        }
+        
+        /* Dark Theme */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --surface-color: #1E1E1E;
+                --background-color: #121212;
+                --surface-variant: #2D2D2D;
+                --outline: #404040;
+                --on-surface: #FFFFFF;
+                --on-background: #FFFFFF;
+            }
+            
+            .login-container {
+                background: linear-gradient(135deg, #1E1E1E 0%, #121212 100%);
+            }
+            
+            .login-subtitle {
+                color: #AAA;
+            }
+            
+            .input-field label {
+                color: #AAA;
+            }
+        
+            .input-field input,
+            .input-field select,
+            .input-field textarea {
+                background: var(--surface-variant);
+                border-color: var(--outline);
+                color: var(--on-surface);
+            }
+            
+            .btn-outline {
+                border-color: var(--outline);
+                color: var(--on-surface);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">
+                    <i class="material-icons-round">android</i>
+                    <span>DNYF TETCH</span>
+                </div>
+                <h1 class="login-title">Admin Panel</h1>
+                <p class="login-subtitle">Manage your website content and analytics</p>
+            </div>
+            
+            <div class="form-group">
+                <div class="input-field with-icon">
+                    <i class="material-icons-round">person</i>
+                    <input type="text" id="username" placeholder="Username" value="admin">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="input-field with-icon">
+                    <i class="material-icons-round">lock</i>
+                    <input type="password" id="password" placeholder="Password" value="admin123">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <button class="btn btn-primary" onclick="login()">
+                    <i class="material-icons-round">login</i>
+                    Sign In
+                </button>
+            </div>
+            
+            <div class="error-message" id="loginError" style="display: none; color: var(--error-color); text-align: center; margin-top: var(--spacing-md);">
+                <i class="material-icons-round">error</i>
+                Invalid credentials
+            </div>
+            
+            <div style="text-align: center; margin-top: var(--spacing-lg); font-size: 12px; color: #666;">
+                <i class="material-icons-round">info</i>
+                Default: admin / admin123
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="admin-container">
+        <!-- Top App Bar -->
+        <div class="top-app-bar">
+            <button class="menu-btn" onclick="toggleDrawer()">
+                <i class="material-icons-round">menu</i>
+            </button>
+            <div class="title" id="pageTitle">Dashboard</div>
+            <div class="actions">
+                <button class="btn-icon" onclick="refreshData()">
+                    <i class="material-icons-round">refresh</i>
+                </button>
+                <button class="btn-icon" onclick="logout()">
+                    <i class="material-icons-round">logout</i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <div class="dashboard">
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="material-icons-round">visibility</i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalVisitors">1,234</h3>
+                                <p>Total Visitors</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="material-icons-round">group</i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="activeUsers">56</h3>
+                                <p>Active Users</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="material-icons-round">chat</i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalMessages">89</h3>
+                                <p>Messages Sent</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="material-icons-round">storage</i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="storageUsed">78%</h3>
+                                <p>Storage Used</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <h2 style="margin: var(--spacing-lg) 0 var(--spacing-md); font-size: 18px;">Quick Actions</h2>
+                    <div class="quick-actions">
+                        <div class="action-card" onclick="switchTab('content')">
+                            <i class="material-icons-round">edit</i>
+                            <h3>Edit Content</h3>
+                            <p>Update website text and images</p>
+                        </div>
+                        
+                        <div class="action-card" onclick="switchTab('analytics')">
+                            <i class="material-icons-round">analytics</i>
+                            <h3>View Analytics</h3>
+                            <p>Check visitor statistics</p>
+                        </div>
+                        
+                        <div class="action-card" onclick="switchTab('users')">
+                            <i class="material-icons-round">people</i>
+                            <h3>Manage Users</h3>
+                            <p>User accounts and permissions</p>
+                        </div>
+                        
+                        <div class="action-card" onclick="backupData()">
+                            <i class="material-icons-round">backup</i>
+                            <h3>Backup Data</h3>
+                            <p>Create system backup</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity -->
+                    <div class="content-section" style="margin-top: var(--spacing-lg);">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="material-icons-round">history</i>
+                                Recent Activity
+                            </h2>
+                            <button class="btn btn-small btn-outline" onclick="loadActivityLog()">
+                                Refresh
+                            </button>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>User</th>
+                                        <th>Action</th>
+                                        <th>Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="activityLog">
+                                    <!-- Activity logs will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Content Management Tab -->
+            <div id="content" class="tab-content">
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="material-icons-round">edit</i>
+                            Content Management
+                        </h2>
+                    </div>
+                    
+                    <div class="tab-header">
+                        <button class="tab-btn active" onclick="switchContentTab('hero')">Hero Section</button>
+                        <button class="tab-btn" onclick="switchContentTab('features')">Features</button>
+                        <button class="tab-btn" onclick="switchContentTab('about')">About</button>
+                        <button class="tab-btn" onclick="switchContentTab('contact')">Contact</button>
+                    </div>
+                    
+                    <!-- Hero Tab -->
+                    <div id="heroTab" class="content-tab active">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Hero Title</label>
+                                <input type="text" id="heroTitle" value="DNYF TETCH" placeholder="Main headline">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Hero Subtitle</label>
+                                <input type="text" id="heroSubtitle" value="AI Research & Development" placeholder="Subtitle">
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label>Hero Description</label>
+                                <textarea id="heroDescription" rows="3" placeholder="Detailed description">Building Future with AI & Terminal Tech</textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Primary Button Text</label>
+                                <input type="text" id="heroBtn1" value="View Projects">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Secondary Button Text</label>
+                                <input type="text" id="heroBtn2" value="AI Assistant">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Features Tab -->
+                    <div id="featuresTab" class="content-tab">
+                        <div id="featuresList">
+                            <!-- Features will be loaded here -->
+                        </div>
+                        <button class="btn btn-outline" onclick="addFeature()" style="margin-top: var(--spacing-md);">
+                            <i class="material-icons-round">add</i>
+                            Add Feature
+                        </button>
+                    </div>
+                    
+                    <div style="margin-top: var(--spacing-lg);">
+                        <button class="btn btn-primary" onclick="saveContent()">
+                            <i class="material-icons-round">save</i>
+                            Save Changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Analytics Tab -->
+            <div id="analytics" class="tab-content">
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="material-icons-round">analytics</i>
+                            Analytics
+                        </h2>
+                        <select id="analyticsPeriod" onchange="loadAnalytics()">
+                            <option value="7d">Last 7 days</option>
+                            <option value="30d" selected>Last 30 days</option>
+                            <option value="90d">Last 90 days</option>
+                            <option value="1y">Last year</option>
+                        </select>
+                    </div>
+                    
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Visitor Statistics</h3>
+                            </div>
+                            <canvas id="visitorsChart" width="400" height="200"></canvas>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Traffic Sources</h3>
+                            </div>
+                            <canvas id="trafficChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="content-section" style="margin-top: var(--spacing-lg);">
+                        <h3 style="margin-bottom: var(--spacing-md);">Detailed Statistics</h3>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Visitors</th>
+                                        <th>Page Views</th>
+                                        <th>Bounce Rate</th>
+                                        <th>Avg. Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="analyticsTable">
+                                    <!-- Analytics data will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- User Management Tab -->
+            <div id="users" class="tab-content">
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="material-icons-round">people</i>
+                            User Management
+                        </h2>
+                        <button class="btn btn-primary btn-small" onclick="showAddUserModal()">
+                            <i class="material-icons-round">person_add</i>
+                            Add User
+                        </button>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Last Active</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTable">
+                                <!-- Users will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Settings Tab -->
+            <div id="settings" class="tab-content">
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="material-icons-round">settings</i>
+                            Settings
+                        </h2>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Admin Password</label>
+                            <input type="password" id="newPassword" placeholder="New password">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" id="confirmPassword" placeholder="Confirm password">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Website Title</label>
+                            <input type="text" id="siteTitle" value="DNYF TETCH">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Contact Email</label>
+                            <input type="email" id="contactEmail" value="contact@dnyftetch.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Maintenance Mode</label>
+                            <select id="maintenanceMode">
+                                <option value="off">Off</option>
+                                <option value="on">On</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Analytics Tracking</label>
+                            <select id="analyticsTracking">
+                                <option value="on">Enabled</option>
+                                <option value="off">Disabled</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: var(--spacing-xl);">
+                        <h3 style="margin-bottom: var(--spacing-md);">Danger Zone</h3>
+                        <div class="cards-grid">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Backup Data</h3>
+                                </div>
+                                <p style="margin-bottom: var(--spacing-md); color: #666; font-size: 14px;">
+                                    Create a backup of all website data and settings.
+                                </p>
+                                <button class="btn btn-outline" onclick="backupData()">
+                                    <i class="material-icons-round">backup</i>
+                                    Create Backup
+                                </button>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Reset Cache</h3>
+                                </div>
+                                <p style="margin-bottom: var(--spacing-md); color: #666; font-size: 14px;">
+                                    Clear all cached data and temporary files.
+                                </p>
+                                <button class="btn btn-outline" onclick="resetCache()">
+                                    <i class="material-icons-round">delete</i>
+                                    Clear Cache
+                                </button>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Factory Reset</h3>
+                                </div>
+                                <p style="margin-bottom: var(--spacing-md); color: #666; font-size: 14px;">
+                                    Reset all settings to default values.
+                                </p>
+                                <button class="btn btn-danger" onclick="factoryReset()">
+                                    <i class="material-icons-round">warning</i>
+                                    Reset Settings
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: var(--spacing-lg);">
+                        <button class="btn btn-primary" onclick="saveSettings()">
+                            <i class="material-icons-round">save</i>
+                            Save Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item active" onclick="switchTab('dashboard')">
+                <i class="material-icons-round">dashboard</i>
+                Dashboard
+            </button>
+            <button class="nav-item" onclick="switchTab('content')">
+                <i class="material-icons-round">edit</i>
+                Content
+            </button>
+            <button class="nav-item" onclick="switchTab('analytics')">
+                <i class="material-icons-round">analytics</i>
+                Analytics
+            </button>
+            <button class="nav-item" onclick="switchTab('users')">
+                <i class="material-icons-round">people</i>
+                Users
+            </button>
+            <button class="nav-item" onclick="switchTab('settings')">
+                <i class="material-icons-round">settings</i>
+                Settings
+            </button>
+        </div>
+        
+        <!-- Toast Container -->
+        <div class="toast-container" id="toastContainer"></div>
+    </div>
+    
+    <!-- Add User Modal -->
+    <div id="addUserModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
+        <div style="background: var(--surface-color); border-radius: var(--radius-lg); padding: var(--spacing-xl); width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto;">
+            <h2 style="margin-bottom: var(--spacing-lg);">Add New User</h2>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="newUserName" placeholder="John Doe">
+                </div>
+                
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="newUserEmail" placeholder="john@example.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="newUserPassword" placeholder="••••••••">
+                </div>
+                
+                <div class="form-group">
+                    <label>Role</label>
+                    <select id="newUserRole">
+                        <option value="admin">Administrator</option>
+                        <option value="editor">Editor</option>
+                        <option value="viewer">Viewer</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: var(--spacing-md); margin-top: var(--spacing-xl);">
+                <button class="btn btn-primary" style="flex: 1;" onclick="addNewUser()">
+                    <i class="material-icons-round">person_add</i>
+                    Add User
+                </button>
+                <button class="btn btn-outline" style="flex: 1;" onclick="hideAddUserModal()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="admin-script.js"></script>
+</body>
+</html>
