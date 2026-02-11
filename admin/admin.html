@@ -1348,6 +1348,727 @@
 
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="admin-script.js"></script>
+    <script>
+        // Admin credentials
+        const ADMIN_CREDENTIALS = {
+            username: "admin",
+            password: "admin123"
+        };
+        
+        // LocalStorage keys
+        const STORAGE_KEYS = {
+            ADMIN_AUTH: 'admin_auth',
+            SITE_CONTENT: 'site_content',
+            ANALYTICS: 'site_analytics',
+            USERS: 'site_users',
+            ACTIVITY: 'activity_log',
+            SETTINGS: 'admin_settings'
+        };
+        
+        // Initialize variables
+        let currentUser = null;
+        let visitorsChart = null;
+        let trafficChart = null;
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            setupRippleEffects();
+        });
+        
+        // Ripple effect for buttons
+        function setupRippleEffects() {
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.classList.add('ripple');
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        }
+        
+        // Check authentication
+        function checkAuth() {
+            const auth = JSON.parse(localStorage.getItem(STORAGE_KEYS.ADMIN_AUTH));
+            if (auth && auth.loggedIn && new Date(auth.expires) > new Date()) {
+                currentUser = auth.username;
+                showAdminPanel();
+            } else {
+                showLogin();
+            }
+        }
+        
+        // Login function
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('loginError');
+            
+            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                // Set auth token
+                const authData = {
+                    username: username,
+                    loggedIn: true,
+                    expires: new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
+                };
+                localStorage.setItem(STORAGE_KEYS.ADMIN_AUTH, JSON.stringify(authData));
+                
+                // Log activity
+                logActivity('Admin login', `User ${username} logged in`);
+                
+                currentUser = username;
+                showAdminPanel();
+                errorElement.style.display = 'none';
+                showToast('Login successful!', 'success');
+            } else {
+                errorElement.style.display = 'block';
+                showToast('Invalid credentials', 'error');
+            }
+        }
+        
+        // Logout function
+        function logout() {
+            localStorage.removeItem(STORAGE_KEYS.ADMIN_AUTH);
+            currentUser = null;
+            showLogin();
+            showToast('Logged out successfully', 'success');
+        }
+        
+        // Show login screen
+        function showLogin() {
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('adminPanel').style.display = 'none';
+        }
+        
+        // Show admin panel
+        function showAdminPanel() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            loadDashboardData();
+        }
+        
+        // Switch main tabs
+        function switchTab(tabName) {
+            // Update bottom nav
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-item').forEach(item => {
+                if (item.textContent.includes(tabName.charAt(0).toUpperCase() + tabName.slice(1))) {
+                    item.classList.add('active');
+                }
+            });
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            
+            // Update page title
+            const titles = {
+                dashboard: 'Dashboard',
+                content: 'Content Management',
+                analytics: 'Analytics',
+                users: 'User Management',
+                settings: 'Settings'
+            };
+            document.getElementById('pageTitle').textContent = titles[tabName];
+            
+            // Load tab-specific data
+            switch(tabName) {
+                case 'dashboard':
+                    loadDashboardData();
+                    break;
+                case 'content':
+                    loadContentData();
+                    break;
+                case 'analytics':
+                    loadAnalytics();
+                    break;
+                case 'users':
+                    loadUsersData();
+                    break;
+                case 'settings':
+                    loadSettings();
+                    break;
+            }
+        }
+        
+        // Switch content sub-tabs
+        function switchContentTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('#content .tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.content-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabName + 'Tab').classList.add('active');
+        }
+        
+        // Load dashboard data
+        function loadDashboardData() {
+            // Load analytics data
+            const analytics = JSON.parse(localStorage.getItem(STORAGE_KEYS.ANALYTICS)) || {
+                totalVisitors: 1234,
+                activeUsers: 56,
+                totalMessages: 89,
+                storageUsed: 78
+            };
+            
+            document.getElementById('totalVisitors').textContent = analytics.totalVisitors.toLocaleString();
+            document.getElementById('activeUsers').textContent = analytics.activeUsers;
+            document.getElementById('totalMessages').textContent = analytics.totalMessages;
+            document.getElementById('storageUsed').textContent = analytics.storageUsed + '%';
+            
+            // Load activity log
+            loadActivityLog();
+        }
+        
+        // Load activity log
+        function loadActivityLog() {
+            const activities = JSON.parse(localStorage.getItem(STORAGE_KEYS.ACTIVITY)) || [
+                {
+                    timestamp: new Date(Date.now() - 3600000).toISOString(),
+                    user: 'admin',
+                    action: 'Content Update',
+                    details: 'Updated hero section'
+                },
+                {
+                    timestamp: new Date(Date.now() - 7200000).toISOString(),
+                    user: 'system',
+                    action: 'Backup',
+                    details: 'Automatic daily backup'
+                },
+                {
+                    timestamp: new Date(Date.now() - 86400000).toISOString(),
+                    user: 'admin',
+                    action: 'Settings',
+                    details: 'Changed admin password'
+                }
+            ];
+            
+            const tbody = document.getElementById('activityLog');
+            tbody.innerHTML = '';
+            
+            activities.slice(-5).reverse().forEach(activity => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${new Date(activity.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
+                    <td>${activity.user}</td>
+                    <td>${activity.action}</td>
+                    <td>${activity.details}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        // Log activity
+        function logActivity(action, details) {
+            const activities = JSON.parse(localStorage.getItem(STORAGE_KEYS.ACTIVITY)) || [];
+            activities.push({
+                timestamp: new Date().toISOString(),
+                user: currentUser || 'System',
+                action: action,
+                details: details
+            });
+            
+            // Keep only last 50 activities
+            if (activities.length > 50) {
+                activities.splice(0, activities.length - 50);
+            }
+            
+            localStorage.setItem(STORAGE_KEYS.ACTIVITY, JSON.stringify(activities));
+        }
+        
+        // Load content data
+        function loadContentData() {
+            const content = JSON.parse(localStorage.getItem(STORAGE_KEYS.SITE_CONTENT)) || {
+                heroTitle: 'DNYF TETCH',
+                heroSubtitle: 'AI Research & Development',
+                heroDescription: 'Building Future with AI & Terminal Tech',
+                heroBtn1: 'View Projects',
+                heroBtn2: 'AI Assistant'
+            };
+            
+            document.getElementById('heroTitle').value = content.heroTitle;
+            document.getElementById('heroSubtitle').value = content.heroSubtitle;
+            document.getElementById('heroDescription').value = content.heroDescription;
+            document.getElementById('heroBtn1').value = content.heroBtn1;
+            document.getElementById('heroBtn2').value = content.heroBtn2;
+            
+            loadFeatures();
+        }
+        
+        // Load features
+        function loadFeatures() {
+            const features = JSON.parse(localStorage.getItem('site_features')) || [
+                { title: 'AI Research', description: 'Machine Learning, Neural Networks, NLP' },
+                { title: 'Android Development', description: 'Kotlin, Java, Termux integration' },
+                { title: 'Termux & Terminal', description: 'CLI tools, automation scripts' },
+                { title: 'Server Development', description: 'Backend APIs, deployment, DevOps' }
+            ];
+            
+            const container = document.getElementById('featuresList');
+            container.innerHTML = '';
+            
+            features.forEach((feature, index) => {
+                const featureDiv = document.createElement('div');
+                featureDiv.className = 'form-group';
+                featureDiv.innerHTML = `
+                    <div style="display: flex; gap: var(--spacing-md); align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <input type="text" 
+                                   value="${feature.title}" 
+                                   onchange="updateFeature(${index}, 'title', this.value)"
+                                   placeholder="Feature title"
+                                   style="margin-bottom: var(--spacing-sm);">
+                            <textarea 
+                                onchange="updateFeature(${index}, 'description', this.value)"
+                                placeholder="Feature description"
+                                rows="2">${feature.description}</textarea>
+                        </div>
+                        <button class="btn btn-icon" onclick="removeFeature(${index})" style="background: var(--error-color); color: white;">
+                            <i class="material-icons-round">delete</i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(featureDiv);
+            });
+        }
+        
+        // Add feature
+        function addFeature() {
+            const features = JSON.parse(localStorage.getItem('site_features')) || [];
+            features.push({ title: 'New Feature', description: 'Description here' });
+            localStorage.setItem('site_features', JSON.stringify(features));
+            loadFeatures();
+            showToast('Feature added', 'success');
+        }
+        
+        // Update feature
+        function updateFeature(index, field, value) {
+            const features = JSON.parse(localStorage.getItem('site_features')) || [];
+            if (features[index]) {
+                features[index][field] = value;
+                localStorage.setItem('site_features', JSON.stringify(features));
+            }
+        }
+        
+        // Remove feature
+        function removeFeature(index) {
+            const features = JSON.parse(localStorage.getItem('site_features')) || [];
+            features.splice(index, 1);
+            localStorage.setItem('site_features', JSON.stringify(features));
+            loadFeatures();
+            showToast('Feature removed', 'success');
+        }
+        
+        // Save content
+        function saveContent() {
+            const content = {
+                heroTitle: document.getElementById('heroTitle').value,
+                heroSubtitle: document.getElementById('heroSubtitle').value,
+                heroDescription: document.getElementById('heroDescription').value,
+                heroBtn1: document.getElementById('heroBtn1').value,
+                heroBtn2: document.getElementById('heroBtn2').value,
+                lastUpdated: new Date().toISOString()
+            };
+            
+            localStorage.setItem(STORAGE_KEYS.SITE_CONTENT, JSON.stringify(content));
+            logActivity('Content updated', 'Website content modified');
+            showToast('Content saved successfully!', 'success');
+        }
+        
+        // Load analytics
+        function loadAnalytics() {
+            // Sample data for charts
+            const period = document.getElementById('analyticsPeriod').value;
+            const days = parseInt(period);
+            
+            const ctx1 = document.getElementById('visitorsChart').getContext('2d');
+            const ctx2 = document.getElementById('trafficChart').getContext('2d');
+            
+            if (visitorsChart) visitorsChart.destroy();
+            if (trafficChart) trafficChart.destroy();
+            
+            // Visitors chart
+            visitorsChart = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Visitors',
+                        data: [65, 59, 80, 81, 56, 55, 40],
+                        borderColor: '#3DDC84',
+                        backgroundColor: 'rgba(61, 220, 132, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            
+            // Traffic chart
+            trafficChart = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Direct', 'Google', 'Social', 'Referral'],
+                    datasets: [{
+                        data: [40, 30, 20, 10],
+                        backgroundColor: [
+                            '#3DDC84',
+                            '#6200EE',
+                            '#FF9800',
+                            '#2196F3'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+            
+            // Load analytics table
+            loadAnalyticsTable();
+        }
+        
+        // Load analytics table
+        function loadAnalyticsTable() {
+            const tbody = document.getElementById('analyticsTable');
+            tbody.innerHTML = '';
+            
+            const data = [
+                { date: 'Today', visitors: 234, pageViews: 567, bounceRate: '32%', avgTime: '2:45' },
+                { date: 'Yesterday', visitors: 198, pageViews: 432, bounceRate: '28%', avgTime: '3:12' },
+                { date: '2 days ago', visitors: 176, pageViews: 398, bounceRate: '35%', avgTime: '2:58' },
+                { date: '3 days ago', visitors: 210, pageViews: 489, bounceRate: '30%', avgTime: '3:05' },
+                { date: '4 days ago', visitors: 187, pageViews: 412, bounceRate: '33%', avgTime: '2:51' }
+            ];
+            
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.date}</td>
+                    <td>${item.visitors}</td>
+                    <td>${item.pageViews}</td>
+                    <td>${item.bounceRate}</td>
+                    <td>${item.avgTime}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        // Load users data
+        function loadUsersData() {
+            const users = JSON.parse(localStorage.getItem(STORAGE_KEYS.USERS)) || [
+                { id: 1, name: 'Admin User', email: 'admin@dnyftetch.com', role: 'admin', lastActive: 'Today', status: 'active' },
+                { id: 2, name: 'John Editor', email: 'john@example.com', role: 'editor', lastActive: '2 hours ago', status: 'active' },
+                { id: 3, name: 'Jane Viewer', email: 'jane@example.com', role: 'viewer', lastActive: 'Yesterday', status: 'inactive' }
+            ];
+            
+            const tbody = document.getElementById('usersTable');
+            tbody.innerHTML = '';
+            
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: var(--spacing-sm);">
+                            <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary-light); color: var(--primary-dark); display: flex; align-items: center; justify-content: center;">
+                                ${user.name.charAt(0)}
+                            </div>
+                            ${user.name}
+                        </div>
+                    </td>
+                    <td>${user.email}</td>
+                    <td><span class="chip">${user.role}</span></td>
+                    <td>${user.lastActive}</td>
+                    <td><span class="chip" style="background: ${user.status === 'active' ? 'var(--primary-light)' : '#FFE0E0'}; color: ${user.status === 'active' ? 'var(--primary-dark)' : var('--error-color')};">${user.status}</span></td>
+                    <td>
+                        <div class="list-actions">
+                            <button class="btn-icon" onclick="editUser(${user.id})" style="background: var(--primary-light); color: var(--primary-dark);">
+                                <i class="material-icons-round">edit</i>
+                            </button>
+                            <button class="btn-icon" onclick="deleteUser(${user.id})" style="background: #FFE0E0; color: var(--error-color);">
+                                <i class="material-icons-round">delete</i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        // Show add user modal
+        function showAddUserModal() {
+            document.getElementById('addUserModal').style.display = 'flex';
+        }
+        
+        // Hide add user modal
+        function hideAddUserModal() {
+            document.getElementById('addUserModal').style.display = 'none';
+        }
+        
+        // Add new user
+        function addNewUser() {
+            const name = document.getElementById('newUserName').value;
+            const email = document.getElementById('newUserEmail').value;
+            const password = document.getElementById('newUserPassword').value;
+            const role = document.getElementById('newUserRole').value;
+            
+            if (!name || !email || !password) {
+                showToast('Please fill all fields', 'error');
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem(STORAGE_KEYS.USERS)) || [];
+            const newId = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
+            
+            users.push({
+                id: newId,
+                name: name,
+                email: email,
+                role: role,
+                lastActive: 'Never',
+                status: 'active'
+            });
+            
+            localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
+            loadUsersData();
+            hideAddUserModal();
+            
+            // Clear form
+            document.getElementById('newUserName').value = '';
+            document.getElementById('newUserEmail').value = '';
+            document.getElementById('newUserPassword').value = '';
+            
+            showToast('User added successfully', 'success');
+            logActivity('User added', `Added user: ${name}`);
+        }
+        
+        // Edit user
+        function editUser(id) {
+            showToast('Edit user: ' + id, 'info');
+            // Implement edit functionality
+        }
+        
+        // Delete user
+        function deleteUser(id) {
+            if (confirm('Are you sure you want to delete this user?')) {
+                let users = JSON.parse(localStorage.getItem(STORAGE_KEYS.USERS)) || [];
+                users = users.filter(user => user.id !== id);
+                localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
+                loadUsersData();
+                showToast('User deleted', 'success');
+                logActivity('User deleted', `Deleted user ID: ${id}`);
+            }
+        }
+        
+        // Load settings
+        function loadSettings() {
+            const settings = JSON.parse(localStorage.getItem(STORAGE_KEYS.SETTINGS)) || {
+                siteTitle: 'DNYF TETCH',
+                contactEmail: 'contact@dnyftetch.com',
+                maintenanceMode: 'off',
+                analyticsTracking: 'on'
+            };
+            
+            document.getElementById('siteTitle').value = settings.siteTitle;
+            document.getElementById('contactEmail').value = settings.contactEmail;
+            document.getElementById('maintenanceMode').value = settings.maintenanceMode;
+            document.getElementById('analyticsTracking').value = settings.analyticsTracking;
+        }
+        
+        // Save settings
+        function saveSettings() {
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (newPassword && newPassword !== confirmPassword) {
+                showToast('Passwords do not match', 'error');
+                return;
+            }
+            
+            if (newPassword) {
+                // In production, this would be hashed
+                ADMIN_CREDENTIALS.password = newPassword;
+                showToast('Password updated successfully!', 'success');
+                logActivity('Password changed', 'Admin password updated');
+            }
+            
+            const settings = {
+                siteTitle: document.getElementById('siteTitle').value,
+                contactEmail: document.getElementById('contactEmail').value,
+                maintenanceMode: document.getElementById('maintenanceMode').value,
+                analyticsTracking: document.getElementById('analyticsTracking').value,
+                lastUpdated: new Date().toISOString()
+            };
+            
+            localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
+            
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            
+            showToast('Settings saved!', 'success');
+            logActivity('Settings updated', 'Admin settings modified');
+        }
+        
+        // Backup data
+        function backupData() {
+            const backup = {
+                content: localStorage.getItem(STORAGE_KEYS.SITE_CONTENT),
+                analytics: localStorage.getItem(STORAGE_KEYS.ANALYTICS),
+                users: localStorage.getItem(STORAGE_KEYS.USERS),
+                activities: localStorage.getItem(STORAGE_KEYS.ACTIVITY),
+                settings: localStorage.getItem(STORAGE_KEYS.SETTINGS),
+                timestamp: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(backup, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `backup_${new Date().toISOString().split('T')[0]}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showToast('Backup created successfully', 'success');
+            logActivity('Backup created', 'Database backup downloaded');
+        }
+        
+        // Reset cache
+        function resetCache() {
+            if (confirm('Clear all cached data?')) {
+                localStorage.removeItem('site_features');
+                showToast('Cache cleared', 'success');
+                logActivity('Cache cleared', 'Cleared all cached data');
+            }
+        }
+        
+        // Factory reset
+        function factoryReset() {
+            if (confirm('⚠️ Warning: This will reset all settings to default values. Continue?')) {
+                localStorage.removeItem(STORAGE_KEYS.SITE_CONTENT);
+                localStorage.removeItem(STORAGE_KEYS.ANALYTICS);
+                localStorage.removeItem(STORAGE_KEYS.USERS);
+                localStorage.removeItem(STORAGE_KEYS.SETTINGS);
+                
+                showToast('Settings reset to default', 'success');
+                logActivity('Factory reset', 'Reset all settings to default');
+                
+                // Reload settings
+                loadSettings();
+                loadContentData();
+            }
+        }
+        
+        // Refresh data
+        function refreshData() {
+            showToast('Refreshing data...', 'info');
+            setTimeout(() => {
+                loadDashboardData();
+                showToast('Data refreshed', 'success');
+            }, 500);
+        }
+        
+        // Toggle drawer (for future use)
+        function toggleDrawer() {
+            showToast('Menu pressed', 'info');
+        }
+        
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = {
+                success: 'check_circle',
+                error: 'error',
+                warning: 'warning',
+                info: 'info'
+            };
+            
+            toast.innerHTML = `
+                <i class="material-icons-round">${icons[type]}</i>
+                <div class="toast-content">
+                    <div class="toast-title">${type.charAt(0).toUpperCase() + type.slice(1)}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">
+                    <i class="material-icons-round">close</i>
+                </button>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.remove();
+                }
+            }, 5000);
+        }
+        
+        // Handle keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+Shift+L for logout
+            if (e.ctrlKey && e.shiftKey && e.key === 'L') {
+                logout();
+            }
+            
+            // Ctrl+Shift+R for refresh
+            if (e.ctrlKey && e.shiftKey && e.key === 'R') {
+                refreshData();
+            }
+            
+            // Ctrl+Shift+S for save
+            if (e.ctrlKey && e.shiftKey && e.key === 'S') {
+                const activeTab = document.querySelector('.tab-content.active').id;
+                if (activeTab === 'content') saveContent();
+                if (activeTab === 'settings') saveSettings();
+            }
+        })
+        
+    <!-- Include Chart.js first -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Then include your admin JavaScript -->
+        <script src="admin-script.js"></script>
+    
 </body>
 </html>
